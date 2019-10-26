@@ -12,7 +12,9 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpOffset = 0.1f;
     private FuelSystem fuel;
 
-    [SerializeField] Text GameOverText;
+    [SerializeField] private Text GameOverText;
+    [SerializeField] private Text GameWinText;
+
 
     Rigidbody2D body;
     GameObject currentPlanet;
@@ -38,6 +40,7 @@ public class Player : MonoBehaviour
         SetMyPlanet();
         currentJumpForce = jumpForce;
         GameOverText.enabled = false;
+        GameWinText.enabled = false;
     }
 
     void Update()
@@ -56,8 +59,11 @@ public class Player : MonoBehaviour
             firstland = true;
         }
 
-        if (fuel.fuelTank.GetPercentage() <= 0.000000001)
+        if (fuel.fuelTank.isEmpty())
             GameOver();
+
+        if (CurrentPlanet.name == "target")
+            GameWin();
     }
 
     void FixedUpdate() {
@@ -156,10 +162,7 @@ public class Player : MonoBehaviour
             SnapToGround();
             grounded = true;
             if (firstland)
-            {
                 currentJumpForce = jumpForce;
-                Debug.Log("Land Jumforce: " + currentJumpForce);
-            }
         }
     }
 
@@ -194,6 +197,13 @@ public class Player : MonoBehaviour
     {
         Time.timeScale = 0;
         GameOverText.enabled = true;
+    }
+
+    private void GameWin()
+    {
+        GameWinText.enabled = true;
+        GameObject wave = GameObject.Find("Wave").gameObject;
+        wave.SetActive(false);
     }
 
 }
