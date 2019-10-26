@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FuelSystem : MonoBehaviour
 {
     [SerializeField] float fuelCapacity;
-    FuelTank fuelTank;
+    [SerializeField] Slider fuelBar;
 
+    FuelTank fuelTank;
+    
     void Awake()
     {
         fuelTank = new FuelTank(fuelCapacity);
@@ -28,5 +31,6 @@ public class FuelSystem : MonoBehaviour
     {
         float fuelLevelPercentage = fuelTank.GetPercentage();
         Debug.Log("Current Level: " + Mathf.Round(fuelLevelPercentage * 100) + "%");
+        fuelBar.value = fuelLevelPercentage;
     }
 }
