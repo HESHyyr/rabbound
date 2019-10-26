@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] float speed = 4;
     [SerializeField] float jumpForce = 5;
     [SerializeField] float jumpOffset = 0.1f;
+    [SerializeField] FuelSystem fuel;
 
     Rigidbody2D body;
     GameObject currentPlanet;
@@ -14,7 +15,7 @@ public class Player : MonoBehaviour
     Animator animator;
     bool grounded = false;
     Vector3 velocity;
-    [SerializeField] List<Collider2D> gravityFields = new List<Collider2D>();
+    List<Collider2D> gravityFields = new List<Collider2D>();
 
     public GameObject CurrentPlanet { get => currentPlanet; set => currentPlanet = value; }
     public bool Grounded { get => grounded; set => grounded = value; }
@@ -68,6 +69,8 @@ public class Player : MonoBehaviour
             body.velocity = (transform.up * jumpForce + velocity).normalized * jumpForce;
             grounded = false;
             animator.SetTrigger("Jumping");
+            // testing fuel
+            GetFuelTank().Drain(5);
         }
     }
 
@@ -108,7 +111,6 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision...");
         if (currentPlanet == collision.gameObject) {
             body.velocity = Vector3.zero;
             SnapToGround();
@@ -130,4 +132,17 @@ public class Player : MonoBehaviour
             gravityFields.Remove(field);
         }
     }
+
+    public float GetSpeed() {
+        return speed;
+    }
+
+    public void SetSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public FuelTank GetFuelTank() {
+        return fuel.GetFuelTank();
+    }
+
 }
