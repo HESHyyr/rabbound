@@ -35,5 +35,10 @@ public class CameraFollow : MonoBehaviour
         }
         var desiredRotQ = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, desiredRot);
         transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotQ, Time.deltaTime * currDamp);
+
+        if (Input.GetKey(KeyCode.H) && GetComponent<Camera>().orthographicSize < 10)
+            GetComponent<Camera>().orthographicSize += 1;
+        if(!Input.GetKey(KeyCode.H) && GetComponent<Camera>().orthographicSize > 5)
+            GetComponent<Camera>().orthographicSize -= 1;
     }
 }

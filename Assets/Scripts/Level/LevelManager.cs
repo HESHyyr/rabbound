@@ -1,11 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
     [SerializeField]
     private List<GameObject> planetList;
+
+    [SerializeField]
+    private Vector2 targetPosition;
+
+    [SerializeField]
+    private GameObject targetPlanet;
 
     //Define the range of RGN for each planet. The number should between 0.0 and 1.0, last element must be 1.0. Eg {0.5, 0.7, 1.0}
     [SerializeField]
@@ -49,7 +54,10 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         generateBoxCenter = player.transform.position;
+
         generatedCells.Add(new Vector2(0, 0));
+        targetPlanet.transform.Translate(new Vector3(targetPosition.x - targetPlanet.transform.position.x, targetPosition.y - targetPlanet.transform.position.y, 0));
+        generatedCells.Add(targetPosition);
         GeneratePlanets();
     }
 
@@ -67,27 +75,30 @@ public class LevelManager : MonoBehaviour
             //Todo: Add check for black-hole circle
             for (int ycoord = Mathf.CeilToInt(generateBoxCenter.y - generateBoxLength); ycoord <= Mathf.FloorToInt(generateBoxCenter.y + generateBoxLength); ycoord++)
                 if (xcoord % (int)cellDistance == 0 && ycoord % (int)cellDistance == 0 && !generatedCells.Contains(new Vector2(xcoord, ycoord)))
-                    GeneratePlanet(xcoord, ycoord);
+                {
+                    //Calculate the planet based on possibility we set
+                    float number = Random.Range(0.0f, 1.0f);
+                    int index = -1;
+                    for (int i = 0; i < planetList.Count; i++)
+                        if (number <= planetPossibility[i])
+                        {
+                            index = i;
+                            break;
+                        }
+                    GameObject planetPrefab = planetList[index];
+
+                    GeneratePlanet(xcoord, ycoord, planetPrefab);
+                }
+
 
     }
 
-    void GeneratePlanet(float x, float y)
+    void GeneratePlanet(float x, float y, GameObject planetPrefab)
     {
         generatedCells.Add(new Vector2(x, y));
 
-        //Calculate the planet based on possibility we set
-        float number = Random.Range(0.0f, 1.0f);
-        int index = -1;
-        for(int i = 0; i < planetList.Count; i++)
-            if(number <= planetPossibility[i])
-            {
-                index = i;
-                break;
-            }
-
-        GameObject planetPrefab = planetList[index];
         float planetX = Random.Range(x - (cellDistance / 2 - planetPrefab.transform.localScale.x), x + (cellDistance / 2 - planetPrefab.transform.localScale.x));
         float planetY = Random.Range(y - (cellDistance / 2 - planetPrefab.transform.localScale.y), y + (cellDistance / 2 - planetPrefab.transform.localScale.y));
-        Instantiate(planetPrefab, new Vector3(planetX, planetY, 0), Quaternion.identity);
+        GameObject planet = Instantiate(planetPrefab, new Vector3(planetX, planetY, 0), Quaternion.identity);
     }
 }
