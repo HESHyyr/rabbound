@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     CameraFollow mCamera;
     Rigidbody2D mBody;
     [HideInInspector]public GameObject mPlanet;
+    Transform mSprits;
+    Animator mAnimator;
 
     [HideInInspector]public bool grounded = false;
     float jumpOffset = 0.1f;
@@ -20,6 +22,8 @@ public class Player : MonoBehaviour
     {
         mBody = GetComponent<Rigidbody2D>();
         mCamera = Camera.main.GetComponent<CameraFollow>();
+        mSprits=  transform.Find("Sprites");
+        mAnimator = mSprits.gameObject.GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
@@ -29,15 +33,33 @@ public class Player : MonoBehaviour
     }
     private void FixedUpdate()
     {
+
+        mAnimator.SetBool("Grounded", grounded);
         SetMyPlanet();
         if (grounded)
         {
             Run();
         }
+        else {
+            Fly();
+        }
     }
     void Run() {
-        mRunVelocity = transform.right * Input.GetAxis("Horizontal") * mSpeed ;
+        float move = Input.GetAxis("Horizontal") * mSpeed;
+        mRunVelocity = transform.right *  move;
         transform.position += mRunVelocity * Time.fixedDeltaTime;
+
+        //set animator
+        Vector3 newScale = mSprits.localScale;
+        if (move < 0 && newScale.x > 0) {
+            newScale.x *= -1;
+            mSprits.localScale = newScale;
+        }
+        else if (move > 0 && newScale.x < 0) {
+            newScale.x *= -1;
+            mSprits.localScale = newScale;
+        }
+        mAnimator.SetFloat("Horizontal", Mathf.Abs(move));
 
         if (Input.GetKeyDown("space"))
         {
@@ -45,10 +67,17 @@ public class Player : MonoBehaviour
             transform.position += transform.up * jumpOffset;
             mBody.velocity = (transform.up * jumpForce + mRunVelocity).normalized*jumpForce;
             grounded = false;
+            mAnimator.SetTrigger("Jumping");
         }
+    }
+    void Fly() {
+        float downSpeed = Vector3.Dot(mBody.velocity, -transform.up);
+        downSpeed /= jumpForce;
+        mAnimator.SetFloat("Vertical",downSpeed);
     }
     void SetMyPlanet() {
         float minDis = float.PositiveInfinity;
+        GameObject prev = mPlanet;
         foreach(Collider2D c in mGravities) {
             float dis = (c.transform.position - transform.position).magnitude;
             GameObject p = c.gameObject.transform.parent.gameObject;
@@ -58,7 +87,9 @@ public class Player : MonoBehaviour
                 mPlanet = c.gameObject.transform.parent.gameObject;
             }
         }
-
+        if (prev != mPlanet) {
+            mAnimator.SetTrigger("Fliping");
+        }
         Vector3 fromPlanet = transform.position- mPlanet.transform.position ;
         float angle = Mathf.Atan2(fromPlanet.y, fromPlanet.x) * Mathf.Rad2Deg-90;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
