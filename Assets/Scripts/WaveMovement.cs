@@ -52,6 +52,11 @@ public class WaveMovement : MonoBehaviour
     private void MoveLateralWithPlayer()
     {
 
+        Vector3 toPlayer = player.transform.position - transform.position;
+
+        float lateralDistance = Vector3.Dot(toPlayer, transform.right);
+
+        transform.position += transform.right * lateralDistance;
     }
 
     private void DrawDebugLines()
