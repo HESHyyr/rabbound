@@ -16,6 +16,18 @@ public class WaveMovement : MonoBehaviour
     private BoxCollider2D col = null;
     private CapsuleCollider2D colPlayer = null;
 
+    // Public methods
+
+    // Return true if the given position plus offset is behind the edge of the wave
+    public bool IsBehindWave(Vector3 planetPosition, float offset)
+    {
+        Vector3 toPlanet = planetPosition - transform.position;
+
+        float verticalDistance = Vector3.Dot(toPlanet, transform.up);
+
+        return (verticalDistance + offset < 0.0f);
+    }
+
     // Inherited from MonoBehavior
 
     void Start()
