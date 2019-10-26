@@ -3251,11 +3251,6 @@ PrefabInstance:
       propertyPath: targetPlanet
       value: 
       objectReference: {fileID: 1233188210}
-    - target: {fileID: 366592216487157143, guid: ac348d5fd6e0b4c49bc22ad2030a2d83,
-        type: 3}
-      propertyPath: speed
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 366592216159884183, guid: ac348d5fd6e0b4c49bc22ad2030a2d83,
         type: 3}
       propertyPath: m_Name

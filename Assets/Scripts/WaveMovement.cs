@@ -10,13 +10,20 @@ public class WaveMovement : MonoBehaviour
     [SerializeField] private GameObject player = null;
     [SerializeField] private Transform targetPlanet = null;
 
+    [SerializeField] private GameObject edge = null;
+
     private Rigidbody2D rb = null;
+    private BoxCollider2D col = null;
+    private CapsuleCollider2D colPlayer = null;
 
     // Inherited from MonoBehavior
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        col = edge.GetComponent<BoxCollider2D>();
+        colPlayer = player.GetComponent<CapsuleCollider2D>();
 
         SetInitialRotation();
         SetInitialPosition();
@@ -27,6 +34,8 @@ public class WaveMovement : MonoBehaviour
         MoveTowardsTarget();
         MoveLateralWithPlayer();
         DrawDebugLines();
+
+        CheckIfCollidingWithPlayer();
     }
 
     // Methods
@@ -57,6 +66,15 @@ public class WaveMovement : MonoBehaviour
         float lateralDistance = Vector3.Dot(toPlayer, transform.right);
 
         transform.position += transform.right * lateralDistance;
+    }
+
+    private void CheckIfCollidingWithPlayer()
+    {
+        bool isColliding = col.IsTouching(colPlayer);
+
+        if (isColliding) {
+            // TODO: somehow kill the player
+        }
     }
 
     private void DrawDebugLines()

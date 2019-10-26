@@ -156,6 +156,7 @@ MonoBehaviour:
   speed: 1
   player: {fileID: 0}
   targetPlanet: {fileID: 0}
+  edge: {fileID: 366592216159884183}
 --- !u!50 &366592216487157142
 Rigidbody2D:
   serializedVersion: 4
