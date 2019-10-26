@@ -47,6 +47,9 @@ public class LevelManager : MonoBehaviour
     {
         generatedCells = new HashSet<Vector2>();
         generateBoxLength = generateBoxCellPerLength * cellDistance;
+
+        targetPlanet.transform.Translate(new Vector3(targetPosition.x - targetPlanet.transform.position.x, targetPosition.y - targetPlanet.transform.position.y, 0));
+        generatedCells.Add(targetPosition);
     }
 
 
@@ -54,10 +57,7 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         generateBoxCenter = player.transform.position;
-
         generatedCells.Add(new Vector2(0, 0));
-        targetPlanet.transform.Translate(new Vector3(targetPosition.x - targetPlanet.transform.position.x, targetPosition.y - targetPlanet.transform.position.y, 0));
-        generatedCells.Add(targetPosition);
         GeneratePlanets();
     }
 
