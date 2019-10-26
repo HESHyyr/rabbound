@@ -48,3 +48,6 @@ TagManager:
   - name: Planet
     uniqueID: 2262842231
     locked: 0
+  - name: Wave
+    uniqueID: 2860013081
+    locked: 0
