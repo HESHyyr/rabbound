@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class WaveMovement : MonoBehaviour
 {
-    [SerializeField] private Vector2 origin = Vector3.zero;
-    [SerializeField] private float angle = 0.0f;
+    [SerializeField] private float initialDistanceFromOrigin = 0.0f;
     [SerializeField] private float speed = 0.0f;
+
+    [SerializeField] private GameObject player = null;
+    [SerializeField] private Transform targetPlanet = null;
 
     private Rigidbody2D rb = null;
 
@@ -16,27 +18,40 @@ public class WaveMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
-        transform.position = origin;
+        SetInitialRotation();
+        SetInitialPosition();
     }
 
     void Update()
     {
-        SetTransformWithAngle();
-        MoveWave();
-
+        MoveTowardsTarget();
+        MoveLateralWithPlayer();
         DrawDebugLines();
     }
 
     // Methods
 
-    private void SetTransformWithAngle()
+    private void SetInitialRotation()
     {
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        Vector3 zAxis = Vector3.forward;
+        float angle = Vector3.SignedAngle(Vector3.up, targetPlanet.position, zAxis);
+        transform.rotation = Quaternion.AngleAxis(angle, zAxis);
     }
 
-    private void MoveWave()
+    private void SetInitialPosition()
+    {
+        Vector3 origin = Vector3.zero;
+        transform.position = origin + transform.up * initialDistanceFromOrigin * -1.0f;
+    }
+
+    private void MoveTowardsTarget()
     {
         rb.velocity = transform.up * speed;
+    }
+
+    private void MoveLateralWithPlayer()
+    {
+
     }
 
     private void DrawDebugLines()
