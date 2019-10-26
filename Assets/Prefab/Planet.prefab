@@ -111,8 +111,8 @@ GameObject:
   - component: {fileID: 6125236260213136611}
   - component: {fileID: 6125236260213136608}
   m_Layer: 0
-  m_Name: GravityFeild
-  m_TagString: GravityFeild
+  m_Name: GravityField
+  m_TagString: GravityField
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

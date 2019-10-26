@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] float speed = 1;
+    [SerializeField] float speed = 4;
     [SerializeField] float jumpForce = 5;
     [SerializeField] float jumpOffset = 0.1f;
 
@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     Animator animator;
     bool grounded = false;
     Vector3 velocity;
-    List<Collider2D> gravities = new List<Collider2D>();
+    [SerializeField] List<Collider2D> gravityFields = new List<Collider2D>();
 
     public GameObject CurrentPlanet { get => currentPlanet; set => currentPlanet = value; }
     public bool Grounded { get => grounded; set => grounded = value; }
@@ -25,10 +25,15 @@ public class Player : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         sprite = transform.Find("Sprites");
         animator = sprite.gameObject.GetComponent<Animator>();
+        SetMyPlanet();
     }
 
-    private void FixedUpdate() {
+    void Update()
+    {
+        //Debug.Log(currentPlanet);
+    }
 
+    void FixedUpdate() {
         animator.SetBool("Grounded", grounded);
         SetMyPlanet();
         if (grounded)
@@ -73,22 +78,23 @@ public class Player : MonoBehaviour
     }
 
     void SetMyPlanet() {
-        float minDis = float.PositiveInfinity;
+        float min = float.PositiveInfinity;
         GameObject prev = currentPlanet;
-        foreach(Collider2D c in gravities) {
-            float dis = (c.transform.position - transform.position).magnitude;
-            GameObject p = c.gameObject.transform.parent.gameObject;
-            dis -= p.transform.localScale.x/2;
-            if ( dis < minDis) {
-                minDis = dis;
-                currentPlanet = c.gameObject.transform.parent.gameObject;
+        foreach (Collider2D field in gravityFields) {
+            float distance = (field.transform.position - transform.position).magnitude;
+            GameObject p = field.gameObject.transform.parent.gameObject;
+            distance -= p.transform.localScale.x / 2;
+            if (distance < min) {
+                min = distance;
+                currentPlanet = field.gameObject.transform.parent.gameObject;
             }
         }
         if (prev != currentPlanet) {
             animator.SetTrigger("Fliping");
         }
-        Vector3 frocurrentPlanet = transform.position- currentPlanet.transform.position ;
-        float angle = Mathf.Atan2(frocurrentPlanet.y, frocurrentPlanet.x) * Mathf.Rad2Deg-90;
+        if (currentPlanet == null) return;
+        Vector3 fromPlanet = transform.position - currentPlanet.transform.position ;
+        float angle = Mathf.Atan2(fromPlanet.y, fromPlanet.x) * Mathf.Rad2Deg - 90;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
@@ -102,27 +108,26 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        Debug.Log("Collision...");
         if (currentPlanet == collision.gameObject) {
-            //Debug.Log(collision.collider.name);
             body.velocity = Vector3.zero;
             SnapToGround();
             grounded = true;
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D field)
     {
-        if (other.tag == "GravityFeild") {
-            gravities.Add(other);
+        if (field.tag == "GravityField") {
+            gravityFields.Add(field);
         }
     }
 
-    void OnTriggerExit2D(Collider2D other)
+    void OnTriggerExit2D(Collider2D field)
     {
-        if (other.tag == "GravityFeild")
+        if (field.tag == "GravityField")
         {
-            gravities.Remove(other);
+            gravityFields.Remove(field);
         }
     }
 }

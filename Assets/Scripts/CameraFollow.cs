@@ -20,11 +20,10 @@ public class CameraFollow : MonoBehaviour
         // Smoothly move the camera towards that target position
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         GameObject currentPlanet = player.CurrentPlanet;
-        Debug.Log(currentPlanet.name);
         if (currentPlanet == null) return;
 
-        Vector3 frocurrentPlanet = playerTarget.position - currentPlanet.transform.position;
-        float desiredRot = Mathf.Atan2(frocurrentPlanet.y, frocurrentPlanet.x) * Mathf.Rad2Deg - 90;
+        Vector3 fromPlanet = playerTarget.position - currentPlanet.transform.position;
+        float desiredRot = Mathf.Atan2(fromPlanet.y, fromPlanet.x) * Mathf.Rad2Deg - 90;
 
         float currDamp;
         if (player.Grounded)
