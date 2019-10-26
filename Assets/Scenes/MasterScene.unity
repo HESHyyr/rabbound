@@ -523,6 +523,7 @@ MonoBehaviour:
   smoothTime: 0.3
   damping: 10
   inAirDamping: 1.5
+  player: {fileID: 1823873829}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -2921,6 +2922,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 67801637}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1823873829 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
+    type: 3}
+  m_PrefabInstance: {fileID: 9058546082548838860}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47316eb40c49d8b4eb5460956b9c830f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1886148424 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6125236258590079237, guid: 159fbda8a62bc994cba1916d3ddc7640,

@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class QuestPointer : MonoBehaviour
 {
+    [SerializeField] Transform target;
+
     private Camera uiCamera;
-    public Transform target;
     private RectTransform pointerRectTransform;
-    private Transform mPlayer;
+    private Transform player;
 
     private void Start()
     {
         pointerRectTransform = transform.Find("Pointer").GetComponent<RectTransform>();
-        mPlayer = GameObject.Find("Player").transform;
+        player = GameObject.Find("Player").transform;
         uiCamera = Camera.main;
     }
     private void Update()
