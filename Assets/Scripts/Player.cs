@@ -7,28 +7,24 @@ public class Player : MonoBehaviour
 {
     [SerializeField] float startSpeed = 4f;
     [SerializeField] float jumpForce = 5f;
-    //MaxJumpForce for jetpack
     [SerializeField] float maxJumpForce = 12;
     [SerializeField] float jumpOffset = 0.1f;
-    [SerializeField] Text GameWinText;
-    [SerializeField] Text GameOverText;
+    [SerializeField] float chargeUpTime = 2f;
+    [SerializeField] private float maxChargeDrainAmount = 15.0f;
     [SerializeField] Transform sprite;
 
     [SerializeField] AudioClip chargeAudio;
     [SerializeField] AudioClip deathAudio;
     [SerializeField] AudioClip jumpAudio;
     [SerializeField] AudioClip landAudio;
-    [SerializeField] AudioSource BGmusicSource;
+    [SerializeField] AudioSource mainMusicSource;
 
-    [SerializeField] ParticleSystem Base;
-    [SerializeField] ParticleSystem ChargeUp;
-    [SerializeField] ParticleSystem ChargeFinish;
-    [SerializeField] ParticleSystem Death;
-    public float chargeUpTime = 0.6f;
-    [SerializeField] private float maxChargeDrainAmount = 15.0f;
-    private float chargeRate;
-    private bool chargeFinished = false;
+    [SerializeField] ParticleSystem chargeUpEffect;
+    [SerializeField] ParticleSystem chargeFinishEffect;
+    [SerializeField] ParticleSystem deathEffect;
 
+
+    float chargeRate;
     FuelSystem fuel;
     float speed;
     bool gameOver = false;
@@ -36,9 +32,7 @@ public class Player : MonoBehaviour
     Planet currentPlanet;
     Animator animator;
     bool grounded = false;
-
     bool prevDidTrace = false;
-
     Vector3 velocity;
     List<Collider2D> gravityFields = new List<Collider2D>();
     float currentJumpForce;
@@ -59,9 +53,7 @@ public class Player : MonoBehaviour
         animator = sprite.GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         currentJumpForce = jumpForce;
-        GameOverText.enabled = false;
-        GameWinText.enabled = false;
-        chargeRate = (maxJumpForce-jumpForce) / chargeUpTime;
+        chargeRate = (maxJumpForce - jumpForce) / chargeUpTime;
         Debug.Log(chargeRate);
     }
 
@@ -71,19 +63,24 @@ public class Player : MonoBehaviour
         RotatePlayerOnPlanet();
         if (grounded)
         {
+            CheckGameOver();
             Run();
             Jump();
+            
         }
         else
         {
             Fly();
         }
+    }
+
+    void CheckGameOver() {
         if (!gameOver)
         {
-            if (GetFuelTank().isEmpty() && grounded)
+            if (GetFuelTank().isEmpty())
             {
-                GameOver();
-                
+                Die();
+
             }
             if (CurrentPlanet.name == "target")
             {
@@ -115,29 +112,26 @@ public class Player : MonoBehaviour
             startCharging = true;
         }
 
-        if (Input.GetKey("space")&&startCharging) {
-            if (!audioSource.isPlaying&&!playedCharge) {
+        if (Input.GetKey("space") && startCharging) {
+            if (!audioSource.isPlaying && !playedCharge) {
                 audioSource.clip = chargeAudio;
                 audioSource.Play();
-                //audioSource.Play(chargeAudio);
                 playedCharge = true;
-                ChargeUp.Play();
+                chargeUpEffect.Play();
             }
-            if (currentJumpForce <= maxJumpForce)
+            if (currentJumpForce < maxJumpForce)
             {
-                currentJumpForce += chargeRate * Time.deltaTime;
-                chargeFinished = false;
+                currentJumpForce = Mathf.Min(maxJumpForce, currentJumpForce + chargeRate * Time.deltaTime);
             }
-            else if(!chargeFinished)
+            else
             {
-                ChargeUp.Stop();
-                ChargeFinish.Play();
-                chargeFinished = true;
+                chargeUpEffect.Stop();
+                chargeFinishEffect.Play();
             }
         }
             
 
-        if (Input.GetKeyUp("space")&&startCharging)
+        if (Input.GetKeyUp("space") && startCharging)
         {
             transform.position += transform.up * jumpOffset;
             body.velocity = (transform.up * currentJumpForce + velocity).normalized * currentJumpForce;
@@ -152,7 +146,7 @@ public class Player : MonoBehaviour
             audioSource.PlayOneShot(jumpAudio);
             playedCharge = false;
             startCharging = false;
-            ChargeUp.Stop();
+            chargeUpEffect.Stop();
         }
     }
 
@@ -270,25 +264,30 @@ public class Player : MonoBehaviour
     public FuelTank GetFuelTank() {
         return fuel.GetFuelTank();
     }
-    public void GameOver()
+
+    public void Die()
     {
         if (!gameOver) {
-            BGmusicSource.PlayOneShot(deathAudio);
-            Instantiate(Death, transform.position, Quaternion.identity);
+            mainMusicSource.Stop();
+            mainMusicSource.PlayOneShot(deathAudio);
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
             gameObject.SetActive(false);
-            //GetFuelTank().RechargeFull();
         }
-
-        //Time.timeScale = 0;
-        GameOverText.enabled = true;
-        gameOver = true;
+        GameOver();
     }
 
     private void GameWin()
     {
-        GameWinText.enabled = true;
         GameObject wave = GameObject.Find("Wave").gameObject;
         wave.SetActive(false);
+        GameOver();
+    }
+
+    private void GameOver() {
         gameOver = true;
+    }
+
+    public bool IsGameOver() {
+        return gameOver;
     }
 }

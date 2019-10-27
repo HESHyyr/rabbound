@@ -95,7 +95,7 @@ public class WaveMovement : MonoBehaviour
         bool isColliding = col.IsTouching(colPlayer);
 
         if (isColliding) {
-            player.GameOver();
+            player.Die();
         }
     }
 
