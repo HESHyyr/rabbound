@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
 
     FuelSystem fuel;
     float speed;
+
+    private bool gameOver = false;
+
+
     Rigidbody2D body;
     Planet currentPlanet;
     Transform sprite;
@@ -57,12 +61,19 @@ public class Player : MonoBehaviour
             Fly();
             firstland = true;
         }
-
-        if (GetFuelTank().isEmpty())
-            GameOver();
-
-        if (CurrentPlanet.name == "target")
-            GameWin();
+        if (!gameOver)
+        {
+            if (GetFuelTank().isEmpty())
+            {
+                gameOver = true;
+                GameOver();
+            }
+            if (CurrentPlanet.name == "target")
+            {
+                gameOver = true;
+                GameWin();
+            }
+        }
     }
 
     void Run() {
