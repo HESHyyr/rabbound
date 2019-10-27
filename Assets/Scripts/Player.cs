@@ -20,8 +20,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] ParticleSystem chargeUpEffect;
     [SerializeField] ParticleSystem chargeFinishEffect;
-    //[SerializeField] ParticleSystem deathEffect;
-    
+    [SerializeField] ParticleSystem deathEffect;
+
     float chargeRate;
     FuelSystem fuel;
     float speed;
@@ -265,7 +265,7 @@ public class Player : MonoBehaviour
         if (!gameOver) {
             mainMusicSource.Stop();
             mainMusicSource.PlayOneShot(deathAudio);
-            //Instantiate(deathEffect, transform.position, Quaternion.identity);
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
             gameObject.SetActive(false);
         }
         GameOver();
