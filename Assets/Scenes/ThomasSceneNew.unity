@@ -907,8 +907,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 771083925}
-  pointer: {fileID: 0}
-  aim: {fileID: 0}
+  pointer: {fileID: 21300000, guid: e8a4e31a264dbfc4c8ead1024e49a2e2, type: 3}
+  aim: {fileID: 21300000, guid: f6bd73f111b37064db05beb79e1005c6, type: 3}
 --- !u!1 &1506827846
 GameObject:
   m_ObjectHideFlags: 0
