@@ -162,12 +162,12 @@ public class Player : MonoBehaviour
 
     bool TraceBack()
     {
-        bool pressedSpace = Input.GetKeyDown("space");
+        bool pressedTraceBack = Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S);
         bool inField = gravityFields.Count > 0;
 
         bool hasTracedBack = false;
 
-        if (pressedSpace && !prevDidTrace && inField) {
+        if (pressedTraceBack && !prevDidTrace && inField) {
 
             body.velocity = Vector3.zero;
 
@@ -179,7 +179,7 @@ public class Player : MonoBehaviour
             hasTracedBack = true;
         }
 
-        prevDidTrace = pressedSpace;
+        prevDidTrace = pressedTraceBack;
 
         return hasTracedBack;
     }
