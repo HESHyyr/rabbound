@@ -511,7 +511,7 @@ MonoBehaviour:
   - {fileID: 3357087546305385857, guid: 1051ef06c36f3a446b82f2d0286fe3af, type: 3}
   - {fileID: 3357087546305385857, guid: efee39cd16fa047a299093ba91935707, type: 3}
   - {fileID: 3357087546305385857, guid: 0e5c18fe3117847ee82b218596549d98, type: 3}
-  targetPosition: {x: 10, y: 10}
+  targetPosition: {x: 160, y: 160}
   targetPlanet: {fileID: 676597364}
   level0:
   - 0.6
@@ -956,6 +956,11 @@ PrefabInstance:
       propertyPath: bgMusic
       value: 
       objectReference: {fileID: 350651605}
+    - target: {fileID: 366592216487157143, guid: ac348d5fd6e0b4c49bc22ad2030a2d83,
+        type: 3}
+      propertyPath: initialDistanceFromOrigin
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac348d5fd6e0b4c49bc22ad2030a2d83, type: 3}
 --- !u!1 &1494118951
@@ -970,6 +975,7 @@ GameObject:
   - component: {fileID: 1494118954}
   - component: {fileID: 1494118953}
   - component: {fileID: 1494118952}
+  - component: {fileID: 1494118956}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1059,6 +1065,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1494118956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494118951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 235d30094900d8c4c89fd499a3a786ac, type: 2}
 --- !u!1001 &1519826980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1081,6 +1100,16 @@ PrefabInstance:
       propertyPath: winSound
       value: 
       objectReference: {fileID: 8300000, guid: bcca135ef2f9f4a12a3521da55f9b99d, type: 3}
+    - target: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
+        type: 3}
+      propertyPath: buffAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 251a2316a2b6b409ca36b9af1c2f613f, type: 3}
+    - target: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
+        type: 3}
+      propertyPath: debuffAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: f1aee1ce3e7a842f9b2b6444b5132938, type: 3}
     - target: {fileID: 9058546082636171052, guid: f091328ddaa8d3c468a6897054089bbb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1323,7 +1352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.6981132, b: 0.073900096, a: 1}
+  m_Color: {r: 1, g: 0.43867922, b: 0.993308, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
