@@ -11,7 +11,7 @@ public class SpeedBuff : Buff
     public override void ApplyBuff(Player player)
     {
         if (triggered) return;
-        player.SetSpeed(player.GetSpeed() + multiplier);
+        player.Speed += multiplier;
         player.Invoke("SetOriginalSpeed", 4f);
         triggered = true;
     }

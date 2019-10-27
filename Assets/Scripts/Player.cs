@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
 
     public Planet CurrentPlanet { get => currentPlanet; set => currentPlanet = value; }
     public bool Grounded { get => grounded; set => grounded = value; }
+    public float Speed { get => speed; set => speed = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -184,16 +185,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    public float GetSpeed() {
-        return speed;
-    }
-
-    public void SetSpeed(float speed) {
-        this.speed = speed;
-    }
-
     public void SetOriginalSpeed() {
-        SetSpeed(startSpeed);
+        speed = startSpeed;
     }
 
     public FuelTank GetFuelTank() {
