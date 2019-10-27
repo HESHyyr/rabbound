@@ -26,7 +26,7 @@ public class QuestPointer : MonoBehaviour
         fromPosition.z = 0;
         //first rotate
         Vector3 dir = (toPosition - fromPosition).normalized;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg-90 ;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90 ;
 
         //Debug.Log(Camera.main.transform.eulerAngles.z );
         angle -= Camera.main.transform.eulerAngles.z ;

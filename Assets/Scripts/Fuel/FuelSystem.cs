@@ -8,7 +8,7 @@ public class FuelSystem : MonoBehaviour
     [SerializeField] float fuelCapacity;
     [SerializeField] Slider fuelBar;
 
-    public FuelTank fuelTank;
+    FuelTank fuelTank;
     
     void Awake()
     {

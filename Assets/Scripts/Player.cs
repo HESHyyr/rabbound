@@ -5,17 +5,22 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] float speed = 4;
-    [SerializeField] float jumpForce = 5;
+    [SerializeField] float startSpeed = 4f;
+    [SerializeField] float jumpForce = 5f;
     //MaxJumpForce for jetpack
     [SerializeField] float maxJumpForce = 12;
     [SerializeField] float jumpOffset = 0.1f;
-    private FuelSystem fuel;
-
+    [SerializeField] Text GameWinText;
     [SerializeField] Text GameOverText;
 
+    FuelSystem fuel;
+    float speed;
+
+    private bool gameOver = false;
+
+
     Rigidbody2D body;
-    GameObject currentPlanet;
+    Planet currentPlanet;
     Transform sprite;
     Animator animator;
     bool grounded = false;
@@ -25,12 +30,13 @@ public class Player : MonoBehaviour
     private float currentJumpForce;
     private bool firstland = true;
 
-    public GameObject CurrentPlanet { get => currentPlanet; set => currentPlanet = value; }
+    public Planet CurrentPlanet { get => currentPlanet; set => currentPlanet = value; }
     public bool Grounded { get => grounded; set => grounded = value; }
 
     // Start is called before the first frame update
     void Start()
     {
+        speed = startSpeed;
         fuel = GetComponent<FuelSystem>();
         body = GetComponent<Rigidbody2D>();
         sprite = transform.Find("Sprites");
@@ -38,11 +44,11 @@ public class Player : MonoBehaviour
         SetMyPlanet();
         currentJumpForce = jumpForce;
         GameOverText.enabled = false;
+        GameWinText.enabled = false;
     }
 
     void Update()
     {
-        //Debug.Log(currentPlanet);
         animator.SetBool("Grounded", grounded);
         SetMyPlanet();
         if (grounded)
@@ -55,22 +61,19 @@ public class Player : MonoBehaviour
             Fly();
             firstland = true;
         }
-
-        if (fuel.fuelTank.GetPercentage() <= 0.000000001)
-            fuel.fuelTank.RechargeFull();
-            //GameOver();
-    }
-
-    void FixedUpdate() {
-        //animator.SetBool("Grounded", grounded);
-        //SetMyPlanet();
-        //if (grounded)
-        //{
-        //    Run();
-        //}
-        //else {
-        //    Fly();
-        //}
+        if (!gameOver)
+        {
+            if (GetFuelTank().isEmpty())
+            {
+                gameOver = true;
+                GameOver();
+            }
+            if (CurrentPlanet.name == "target")
+            {
+                gameOver = true;
+                GameWin();
+            }
+        }
     }
 
     void Run() {
@@ -90,15 +93,6 @@ public class Player : MonoBehaviour
         }
         animator.SetFloat("Horizontal", Mathf.Abs(move));
 
-        //Change this part to develop jetpack
-        //if (Input.GetKeyDown("space"))
-        //{
-        //    transform.position += transform.up * jumpOffset;
-        //    body.velocity = (transform.up * jumpForce + velocity).normalized * jumpForce;
-        //    grounded = false;
-        //    animator.SetTrigger("Jumping");
-        //}
-
         if (Input.GetKey("space"))
             if (currentJumpForce <= maxJumpForce)
                 currentJumpForce += 0.2f;
@@ -110,7 +104,7 @@ public class Player : MonoBehaviour
             grounded = false;
             animator.SetTrigger("Jumping");
             // testing fuel
-            GetFuelTank().Drain(5);
+            GetFuelTank().Drain(15);
         }
     }
 
@@ -122,21 +116,22 @@ public class Player : MonoBehaviour
 
     void SetMyPlanet() {
         float min = float.PositiveInfinity;
-        GameObject prev = currentPlanet;
+        Planet lastPlanet = currentPlanet;
         foreach (Collider2D field in gravityFields) {
             float distance = (field.transform.position - transform.position).magnitude;
             GameObject p = field.gameObject.transform.parent.gameObject;
             distance -= p.transform.localScale.x / 2;
             if (distance < min) {
                 min = distance;
-                currentPlanet = field.gameObject.transform.parent.gameObject;
+                GameObject planetObject = field.gameObject.transform.parent.gameObject;
+                currentPlanet = planetObject.GetComponent<Planet>();
             }
         }
-        if (prev != currentPlanet) {
+        if (lastPlanet != currentPlanet) {
             animator.SetTrigger("Fliping");
         }
         if (currentPlanet == null) return;
-        Vector3 fromPlanet = transform.position - currentPlanet.transform.position ;
+        Vector3 fromPlanet = transform.position - currentPlanet.transform.position;
         float angle = Mathf.Atan2(fromPlanet.y, fromPlanet.x) * Mathf.Rad2Deg - 90;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
@@ -147,20 +142,18 @@ public class Player : MonoBehaviour
         dif.Normalize();
         float groundDis = (currentPlanet.transform.localScale.x + transform.localScale.y) / 2;
         transform.position = currentPlanet.transform.position + dif * groundDis;
+        currentPlanet.ApplyBuff(this);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        //Debug.Log("Collision...");
-        if (currentPlanet == collision.gameObject) {
+        if (currentPlanet == null) return;
+        if (currentPlanet.gameObject == collision.gameObject) {
             body.velocity = Vector3.zero;
             SnapToGround();
             grounded = true;
             if (firstland)
-            {
                 currentJumpForce = jumpForce;
-                //Debug.Log("Land Jumforce: " + currentJumpForce);
-            }
         }
     }
 
@@ -187,6 +180,10 @@ public class Player : MonoBehaviour
         this.speed = speed;
     }
 
+    public void SetOriginalSpeed() {
+        SetSpeed(startSpeed);
+    }
+
     public FuelTank GetFuelTank() {
         return fuel.GetFuelTank();
     }
@@ -195,6 +192,13 @@ public class Player : MonoBehaviour
     {
         Time.timeScale = 0;
         GameOverText.enabled = true;
+    }
+
+    private void GameWin()
+    {
+        GameWinText.enabled = true;
+        GameObject wave = GameObject.Find("Wave").gameObject;
+        wave.SetActive(false);
     }
 
 }
