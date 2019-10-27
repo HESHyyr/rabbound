@@ -10,8 +10,6 @@ public class Player : MonoBehaviour
     //MaxJumpForce for jetpack
     [SerializeField] float maxJumpForce = 12;
     [SerializeField] float jumpOffset = 0.1f;
-    [SerializeField] Text GameWinText;
-    [SerializeField] Text GameOverText;
     [SerializeField] Transform sprite;
 
     [SerializeField] AudioClip chargeAudio;
@@ -58,8 +56,6 @@ public class Player : MonoBehaviour
         animator = sprite.GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         currentJumpForce = jumpForce;
-        GameOverText.enabled = false;
-        GameWinText.enabled = false;
         chargeRate = (maxJumpForce-jumpForce) / chargeUpTime;
         Debug.Log(chargeRate);
     }
@@ -276,13 +272,11 @@ public class Player : MonoBehaviour
         }
 
         //Time.timeScale = 0;
-        GameOverText.enabled = true;
         gameOver = true;
     }
 
     private void GameWin()
     {
-        GameWinText.enabled = true;
         GameObject wave = GameObject.Find("Wave").gameObject;
         wave.SetActive(false);
         gameOver = true;
