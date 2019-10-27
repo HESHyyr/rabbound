@@ -1,10 +1,16 @@
 ﻿using System;
 public class FuelBuff : Buff
 {
-    public override void ApplyBuff(Player player)
+
+    public FuelBuff() : base(true) { }
+
+    protected override void ApplyBuffTo(Player player)
     {
-        if (triggered) return; 
         player.GetFuelTank().RechargeFull();
-        triggered = true;
+    }
+
+    protected override void PlaySoundEffect(Player player)
+    {
+        player.PlayBuffAudio();
     }
 }

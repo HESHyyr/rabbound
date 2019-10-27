@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     [SerializeField] AudioClip deathAudio;
     [SerializeField] AudioClip jumpAudio;
     [SerializeField] AudioClip landAudio;
+    [SerializeField] AudioClip buffAudio;
+    [SerializeField] AudioClip debuffAudio;
     [SerializeField] AudioSource mainMusicSource;
 
     [SerializeField] ParticleSystem chargeUpEffect;
@@ -289,5 +291,13 @@ public class Player : MonoBehaviour
 
     public bool IsGameOver() {
         return gameOver;
+    }
+
+    public void PlayBuffAudio() {
+        audioSource.PlayOneShot(buffAudio);
+    }
+
+    public void PlayDebuffAudio() {
+        audioSource.PlayOneShot(debuffAudio);
     }
 }
