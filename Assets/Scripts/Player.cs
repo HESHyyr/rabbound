@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
         {
             if (GetFuelTank().isEmpty())
             {
-                GameOver();
+                Die();
 
             }
             if (CurrentPlanet.name == "target")
@@ -263,6 +263,7 @@ public class Player : MonoBehaviour
     public void Die()
     {
         if (!gameOver) {
+            mainMusicSource.Stop();
             mainMusicSource.PlayOneShot(deathAudio);
             //Instantiate(deathEffect, transform.position, Quaternion.identity);
             gameObject.SetActive(false);
