@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     [SerializeField] ParticleSystem ChargeFinish;
     [SerializeField] ParticleSystem Death;
     public float chargeUpTime = 0.6f;
+    [SerializeField] private float maxChargeDrainAmount = 15.0f;
     private float chargeRate;
     private bool chargeFinished = false;
 
@@ -142,8 +143,11 @@ public class Player : MonoBehaviour
             body.velocity = (transform.up * currentJumpForce + velocity).normalized * currentJumpForce;
             grounded = false;
             animator.SetTrigger("Jumping");
-            // testing fuel
-            GetFuelTank().Drain(15);
+
+            // draining fuel based on charge amount
+            float drainFuelAmount = maxChargeDrainAmount * (currentJumpForce / maxJumpForce);
+            GetFuelTank().Drain(drainFuelAmount);
+
             audioSource.Stop();
             audioSource.PlayOneShot(jumpAudio);
             playedCharge = false;
