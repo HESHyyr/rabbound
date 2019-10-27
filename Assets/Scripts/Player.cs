@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     //MaxJumpForce for jetpack
     [SerializeField] float maxJumpForce = 12;
     [SerializeField] float jumpOffset = 0.1f;
-    [SerializeField] private Text GameWinText;
+    [SerializeField] Text GameWinText;
     [SerializeField] Text GameOverText;
 
     FuelSystem fuel;

@@ -7,7 +7,8 @@ abstract public class Buff
     public enum BuffType {
         NoBuff,
         SpeedBuff,
-        FuelBuff
+        FuelBuff,
+        ToxicDebuff
     }
 
     protected bool triggered;

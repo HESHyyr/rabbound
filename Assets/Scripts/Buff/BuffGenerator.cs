@@ -13,6 +13,9 @@ public class BuffGenerator
         if (type == Buff.BuffType.SpeedBuff) {
             return new SpeedBuff();
         }
+        if (type == Buff.BuffType.ToxicDebuff) {
+            return new ToxicDebuff();
+        }
         return null;
     }
 
