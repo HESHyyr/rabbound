@@ -24,6 +24,8 @@ public class WaveMovement : MonoBehaviour
     private BoxCollider2D col = null;
     private CapsuleCollider2D colPlayer = null;
 
+    public bool end = false;
+
     // Public methods
 
     // Return true if the given position plus offset is behind the edge of the wave
@@ -64,7 +66,7 @@ public class WaveMovement : MonoBehaviour
         Vector3 dis = player.transform.position - transform.position;
         //Debug.Log(dis.magnitude);
         bgMusic.pitch = 1;
-        if (dis.magnitude < soundPlayDis)
+        if (dis.magnitude < soundPlayDis&&!end)
         {
             //Debug.Log("moving");
             float t = dis.magnitude;
