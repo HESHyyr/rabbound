@@ -114,6 +114,7 @@ GameObject:
   - component: {fileID: 9058546082636171026}
   - component: {fileID: 9058546082636171025}
   - component: {fileID: 9058546082636171024}
+  - component: {fileID: 763693052}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -213,12 +214,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47316eb40c49d8b4eb5460956b9c830f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  jumpForce: 8
-  maxJumpForce: 12
+  startSpeed: 4
+  jumpForce: 6
+  maxJumpForce: 10
   jumpOffset: 0.1
-  gravityFields: []
-  currentJumpForce: 5
+  GameWinText: {fileID: 0}
+  GameOverText: {fileID: 0}
 --- !u!50 &9058546082636171024
 Rigidbody2D:
   serializedVersion: 4
@@ -240,3 +241,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &763693052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9058546082636171031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2643f8156fb4c4b8eb64c07308af964d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fuelCapacity: 100
+  fuelBar: {fileID: 0}

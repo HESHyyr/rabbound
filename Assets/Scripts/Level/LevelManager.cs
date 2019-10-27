@@ -49,7 +49,7 @@ public class LevelManager : MonoBehaviour
         generateBoxLength = generateBoxCellPerLength * cellDistance;
 
         targetPlanet.transform.Translate(new Vector3(targetPosition.x - targetPlanet.transform.position.x, targetPosition.y - targetPlanet.transform.position.y, 0));
-        generatedCells.Add(targetPosition);
+        generatedCells.Add(new Vector2((int)targetPosition.x, (int)targetPosition.y));
     }
 
 
@@ -72,7 +72,6 @@ public class LevelManager : MonoBehaviour
     {
         generateBoxCenter = player.transform.position;
         for (int xcoord = Mathf.CeilToInt(generateBoxCenter.x - generateBoxLength); xcoord <= Mathf.FloorToInt(generateBoxCenter.x + generateBoxLength); xcoord++)
-            //Todo: Add check for black-hole circle
             for (int ycoord = Mathf.CeilToInt(generateBoxCenter.y - generateBoxLength); ycoord <= Mathf.FloorToInt(generateBoxCenter.y + generateBoxLength); ycoord++)
                 if (xcoord % (int)cellDistance == 0 && ycoord % (int)cellDistance == 0 && !generatedCells.Contains(new Vector2(xcoord, ycoord)))
                 {

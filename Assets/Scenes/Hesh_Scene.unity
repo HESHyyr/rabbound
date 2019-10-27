@@ -290,20 +290,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1439567692}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &763693052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 763693051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2643f8156fb4c4b8eb64c07308af964d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fuelCapacity: 100
-  fuelBar: {fileID: 2035716805}
 --- !u!114 &763693053 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
@@ -610,13 +596,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetList:
   - {fileID: 6125236258590079256, guid: 159fbda8a62bc994cba1916d3ddc7640, type: 3}
-  - {fileID: 3324283401582367209, guid: a75623e787e4e4fbd92aed5c1d615793, type: 3}
+  - {fileID: 3357087546305385857, guid: 7e3ca5d6113f84513aaf1c5c80ae2ffd, type: 3}
   - {fileID: 3357087546305385857, guid: efee39cd16fa047a299093ba91935707, type: 3}
   targetPosition: {x: 80, y: 80}
   targetPlanet: {fileID: 771083924}
   planetPossibility:
-  - 0.5
-  - 0.85
+  - 0.7
+  - 0.9
   - 1
   levelDistance: []
   player: {fileID: 763693051}
@@ -857,29 +843,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
         type: 3}
-      propertyPath: mSpeed
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
-        type: 3}
-      propertyPath: maxJumpForce
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
-        type: 3}
-      propertyPath: jumpForce
-      value: 6
-      objectReference: {fileID: 0}
+      propertyPath: GameWinText
+      value: 
+      objectReference: {fileID: 804158298}
     - target: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
         type: 3}
       propertyPath: GameOverText
       value: 
       objectReference: {fileID: 1324591827}
-    - target: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
-        type: 3}
-      propertyPath: GameWinText
+    - target: {fileID: 763693052, guid: f091328ddaa8d3c468a6897054089bbb, type: 3}
+      propertyPath: fuelBar
       value: 
-      objectReference: {fileID: 804158298}
+      objectReference: {fileID: 2035716805}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f091328ddaa8d3c468a6897054089bbb, type: 3}
 --- !u!1 &1489978191
