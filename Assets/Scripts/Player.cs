@@ -18,8 +18,15 @@ public class Player : MonoBehaviour
     [SerializeField] AudioClip deathAudio;
     [SerializeField] AudioClip jumpAudio;
     [SerializeField] AudioClip landAudio;
-    public float chargeUpTime = 0.7f;
+    [SerializeField] AudioSource BGmusicSource;
+
+    [SerializeField] ParticleSystem Base;
+    [SerializeField] ParticleSystem ChargeUp;
+    [SerializeField] ParticleSystem ChargeFinish;
+    [SerializeField] ParticleSystem Death;
+    public float chargeUpTime = 0.6f;
     private float chargeRate;
+    private bool chargeFinished = false;
 
     FuelSystem fuel;
     float speed;
@@ -33,9 +40,10 @@ public class Player : MonoBehaviour
 
     Vector3 velocity;
     List<Collider2D> gravityFields = new List<Collider2D>();
-    bool doubleJump;
     float currentJumpForce;
     AudioSource audioSource;
+    bool playedCharge = false;
+    bool startCharging = false;
 
     public Planet CurrentPlanet { get => currentPlanet; set => currentPlanet = value; }
     public bool Grounded { get => grounded; set => grounded = value; }
@@ -52,6 +60,8 @@ public class Player : MonoBehaviour
         currentJumpForce = jumpForce;
         GameOverText.enabled = false;
         GameWinText.enabled = false;
+        chargeRate = (maxJumpForce-jumpForce) / chargeUpTime;
+        Debug.Log(chargeRate);
     }
 
     void Update()
@@ -69,9 +79,10 @@ public class Player : MonoBehaviour
         }
         if (!gameOver)
         {
-            if (GetFuelTank().isEmpty() && grounded)
+            if (GetFuelTank().isEmpty())
             {
                 GameOver();
+                
             }
             if (CurrentPlanet.name == "target")
             {
@@ -99,18 +110,33 @@ public class Player : MonoBehaviour
     }
 
     void Jump() {
-        if (Input.GetKey("space")) {
-            if (!audioSource.isPlaying) {
+        if (grounded && Input.GetKeyDown("space")) {
+            startCharging = true;
+        }
+
+        if (Input.GetKey("space")&&startCharging) {
+            if (!audioSource.isPlaying&&!playedCharge) {
                 audioSource.clip = chargeAudio;
                 audioSource.Play();
                 //audioSource.Play(chargeAudio);
+                playedCharge = true;
+                ChargeUp.Play();
             }
             if (currentJumpForce <= maxJumpForce)
-                currentJumpForce += 0.2f;
+            {
+                currentJumpForce += chargeRate * Time.deltaTime;
+                chargeFinished = false;
+            }
+            else if(!chargeFinished)
+            {
+                ChargeUp.Stop();
+                ChargeFinish.Play();
+                chargeFinished = true;
+            }
         }
             
 
-        if (Input.GetKeyUp("space"))
+        if (Input.GetKeyUp("space")&&startCharging)
         {
             transform.position += transform.up * jumpOffset;
             body.velocity = (transform.up * currentJumpForce + velocity).normalized * currentJumpForce;
@@ -120,6 +146,9 @@ public class Player : MonoBehaviour
             GetFuelTank().Drain(15);
             audioSource.Stop();
             audioSource.PlayOneShot(jumpAudio);
+            playedCharge = false;
+            startCharging = false;
+            ChargeUp.Stop();
         }
     }
 
@@ -237,14 +266,16 @@ public class Player : MonoBehaviour
     public FuelTank GetFuelTank() {
         return fuel.GetFuelTank();
     }
-
     public void GameOver()
     {
         if (!gameOver) {
-            audioSource.PlayOneShot(deathAudio);
+            BGmusicSource.PlayOneShot(deathAudio);
+            Instantiate(Death, transform.position, Quaternion.identity);
+            gameObject.SetActive(false);
+            //GetFuelTank().RechargeFull();
         }
-        
-        Time.timeScale = 0;
+
+        //Time.timeScale = 0;
         GameOverText.enabled = true;
         gameOver = true;
     }
@@ -256,15 +287,4 @@ public class Player : MonoBehaviour
         wave.SetActive(false);
         gameOver = true;
     }
-
-    public void EnableDoubleJump()
-    {
-        doubleJump = true;
-    }
-
-    public bool CanDoubleJump()
-    {
-        return doubleJump;
-    }
-
 }

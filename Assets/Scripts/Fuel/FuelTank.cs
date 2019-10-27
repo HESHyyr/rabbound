@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class FuelTank
 {
-    const float EMPTY_THRESHOLD = 0.1f;
+    const float EMPTY_THRESHOLD = 0;
     float capacity;
     float currentLevel;
+    
+
+    public float GetCapacity() {
+        return capacity;
+    }
 
     public FuelTank(float capacity) {
         currentLevel = 0;
@@ -22,7 +27,8 @@ public class FuelTank
     }
 
     public void Drain(float amount) {
-        currentLevel = Mathf.Max(0, currentLevel - amount);
+        //currentLevel = Mathf.Max(0, currentLevel - amount);
+        currentLevel -= amount;
     }
 
     public void DrainAll() {

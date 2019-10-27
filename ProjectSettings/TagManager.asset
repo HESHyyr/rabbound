@@ -51,3 +51,6 @@ TagManager:
   - name: Wave
     uniqueID: 2860013081
     locked: 0
+  - name: WaveParticle
+    uniqueID: 3742975277
+    locked: 0

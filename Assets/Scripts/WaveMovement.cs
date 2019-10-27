@@ -12,6 +12,8 @@ public class WaveMovement : MonoBehaviour
 
     [SerializeField] private GameObject edge = null;
 
+    public float maxDisFromPlayer = 50f;
+
     private Rigidbody2D rb = null;
     private BoxCollider2D col = null;
     private CapsuleCollider2D colPlayer = null;
@@ -78,6 +80,14 @@ public class WaveMovement : MonoBehaviour
         float lateralDistance = Vector3.Dot(toPlayer, transform.right);
 
         transform.position += transform.right * lateralDistance;
+
+        //this is to make sure the wave don't fall behind to much
+        Vector3 dis = player.transform.position - transform.position;
+        //Debug.Log(dis.magnitude);
+        if (dis.magnitude > maxDisFromPlayer) {
+            //Debug.Log("moving");
+            transform.position = (player.transform.position - dis.normalized* maxDisFromPlayer);
+        }
     }
 
     private void CheckIfCollidingWithPlayer()
