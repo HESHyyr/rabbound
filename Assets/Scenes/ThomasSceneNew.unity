@@ -403,6 +403,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 771083923}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &771083926 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1063540619673682649, guid: 159fbda8a62bc994cba1916d3ddc7640,
+    type: 3}
+  m_PrefabInstance: {fileID: 771083923}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771083924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28cac524346c84e0189c9688c4068554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &804158296
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,12 +548,12 @@ PrefabInstance:
         type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 763693051}
+      objectReference: {fileID: 763693053}
     - target: {fileID: 366592216487157143, guid: ac348d5fd6e0b4c49bc22ad2030a2d83,
         type: 3}
       propertyPath: targetPlanet
       value: 
-      objectReference: {fileID: 771083925}
+      objectReference: {fileID: 771083926}
     - target: {fileID: 366592216159884183, guid: ac348d5fd6e0b4c49bc22ad2030a2d83,
         type: 3}
       propertyPath: m_Name
@@ -856,6 +868,11 @@ PrefabInstance:
       propertyPath: GameOverText
       value: 
       objectReference: {fileID: 1324591827}
+    - target: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
+        type: 3}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 2014480513}
     - target: {fileID: 763693052, guid: f091328ddaa8d3c468a6897054089bbb, type: 3}
       propertyPath: fuelBar
       value: 
@@ -1264,6 +1281,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &2014480513 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9058546081720765906, guid: f091328ddaa8d3c468a6897054089bbb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1439567692}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2035716803
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     [SerializeField] Text GameWinText;
     [SerializeField] Text GameOverText;
     [SerializeField] Transform sprite;
+    public float chargeUpTime = 0.7f;
+    private float chargeRate;
 
     FuelSystem fuel;
     float speed;
@@ -39,6 +41,7 @@ public class Player : MonoBehaviour
         currentJumpForce = jumpForce;
         GameOverText.enabled = false;
         GameWinText.enabled = false;
+
     }
 
     void Update()
