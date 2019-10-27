@@ -16,7 +16,20 @@ public class LevelManager : MonoBehaviour
 
     //Define the range of RGN for each planet. The number should between 0.0 and 1.0, last element must be 1.0. Eg {0.5, 0.7, 1.0}
     [SerializeField]
-    private List<float> planetPossibility;
+    private List<List<float>> planetPossibility;
+
+    [SerializeField]
+    private List<float> level0;
+
+    [SerializeField]
+    private List<float> level1;
+
+    [SerializeField]
+    private List<float> level2;
+
+    [SerializeField]
+    private List<float> level3;
+
 
     //Level is defined by distance. After the player reach certain amount of distance, the level becomes harder and planet possibility need to red
     [SerializeField]
@@ -45,8 +58,17 @@ public class LevelManager : MonoBehaviour
 
     private HashSet<Vector2> generatedCells;
 
+    private int currentLevel;
+
+    private Vector3 origin;
+
+    [SerializeField]
+    private AudioClip winSound;
+    private AudioSource audioPlayer;
+
     private void Awake()
     {
+        audioPlayer = GetComponent<AudioSource>();
         generatedCells = new HashSet<Vector2>();
         generateBoxLength = generateBoxCellPerLength * cellDistance;
 
@@ -56,7 +78,13 @@ public class LevelManager : MonoBehaviour
         generatedCells.Add(new Vector2((int)targetPosition.x - 1, (int)targetPosition.y + 1));
         generatedCells.Add(new Vector2((int)targetPosition.x + 1, (int)targetPosition.y - 1));
         generatedCells.Add(new Vector2((int)targetPosition.x + 1, (int)targetPosition.y + 1));
-
+        currentLevel = 0;
+        origin = player.transform.position;
+        planetPossibility = new List<List<float>>();
+        planetPossibility.Add(level0);
+        planetPossibility.Add(level1);
+        planetPossibility.Add(level2);
+        planetPossibility.Add(level3);
     }
 
 
@@ -73,6 +101,9 @@ public class LevelManager : MonoBehaviour
     {
         if (Vector3.Distance(player.transform.position, generateBoxCenter) >= distanceToRegenerate)
             GeneratePlanets();
+
+        if (currentLevel < 3 && Vector3.Distance(player.transform.position, origin) >= levelDistance[currentLevel])
+            currentLevel++;
 
         if (!player.activeSelf)
             GameOver();
@@ -92,7 +123,7 @@ public class LevelManager : MonoBehaviour
                     float number = Random.Range(0.0f, 1.0f);
                     int index = -1;
                     for (int i = 0; i < planetList.Count; i++)
-                        if (number <= planetPossibility[i])
+                        if (number <= planetPossibility[currentLevel][i])
                         {
                             index = i;
                             break;
@@ -117,20 +148,20 @@ public class LevelManager : MonoBehaviour
     public void GameOver()
     {
         IEnumerator GameOverRoutine;
-        GameOverRoutine = WaitAndLoadScene("GameOver");
+        GameOverRoutine = WaitAndLoadScene("GameOver", 2.0f);
         StartCoroutine(GameOverRoutine);
     }
 
     public void GameWin()
     {
         IEnumerator GameWinRoutine;
-        GameWinRoutine = WaitAndLoadScene("GameWin");
+        GameWinRoutine = WaitAndLoadScene("GameWin", 4.0f);
         StartCoroutine(GameWinRoutine);
     }
 
-    private IEnumerator WaitAndLoadScene(string SceneName)
+    private IEnumerator WaitAndLoadScene(string SceneName, float waitTime)
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(waitTime);
         SceneManager.LoadScene(SceneName);
     }
 }

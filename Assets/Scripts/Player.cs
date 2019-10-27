@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField] AudioClip landAudio;
     [SerializeField] AudioClip buffAudio;
     [SerializeField] AudioClip debuffAudio;
+    [SerializeField] AudioClip winSound;
     [SerializeField] AudioSource mainMusicSource;
 
     [SerializeField] ParticleSystem chargeUpEffect;
@@ -71,7 +72,6 @@ public class Player : MonoBehaviour
         RotatePlayerOnPlanet();
         if (grounded)
         {
-            CheckGameOver();
             Run();
             Jump();
             
@@ -242,6 +242,7 @@ public class Player : MonoBehaviour
 
     void OnFirstLand() {
         if (grounded) return;
+        CheckGameOver();
         audioSource.PlayOneShot(landAudio);
         currentPlanet.ApplyBuff(this);
         currentJumpForce = jumpForce;
@@ -291,6 +292,8 @@ public class Player : MonoBehaviour
             Instantiate(winFirework, fireFrom.position, Quaternion.identity);
         }
         Win = true;
+        mainMusicSource.Stop();
+        mainMusicSource.PlayOneShot(winSound);
         GameOver();
     }
 
@@ -308,5 +311,9 @@ public class Player : MonoBehaviour
 
     public void PlayDebuffAudio() {
         audioSource.PlayOneShot(debuffAudio);
+    }
+
+    public void RechargeOvertime(float time) {
+        fuel.RechargeAllOvertime(time);
     }
 }

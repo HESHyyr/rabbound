@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3357087546305385858}
   - component: {fileID: -2949442416158289409}
   m_Layer: 0
-  m_Name: Planet 6
+  m_Name: Blackhole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,9 +96,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.012023847, y: -0.012023847}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.23848109
 --- !u!114 &-2949442416158289409
 MonoBehaviour:
   m_ObjectHideFlags: 0

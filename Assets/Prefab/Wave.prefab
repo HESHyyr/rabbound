@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 366592216159884180}
   - component: {fileID: 366592216159884181}
   m_Layer: 0
-  m_Name: WaveSprite
+  m_Name: WaveEdge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -160,6 +160,11 @@ MonoBehaviour:
   player: {fileID: 0}
   targetPlanet: {fileID: 0}
   edge: {fileID: 366592216159884183}
+  bgMusic: {fileID: 0}
+  highPitch: 1.5
+  lowPitch: 1
+  soundPlayDis: 8
+  soundPlayDisMin: 1
   maxDisFromPlayer: 20
 --- !u!50 &366592216487157142
 Rigidbody2D:
