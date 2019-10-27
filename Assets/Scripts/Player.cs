@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     [SerializeField] ParticleSystem deathEffect;
     [SerializeField] GameObject winFirework;
 
+    public WaveMovement wave;
+
 
     float chargeRate;
     float drainRate;
@@ -274,7 +276,9 @@ public class Player : MonoBehaviour
     public void Die()
     {
         if (!gameOver) {
+            wave.end = true;
             mainMusicSource.Stop();
+            mainMusicSource.pitch = 1;
             mainMusicSource.PlayOneShot(deathAudio);
             Instantiate(deathEffect, transform.position, Quaternion.identity);
             gameObject.SetActive(false);

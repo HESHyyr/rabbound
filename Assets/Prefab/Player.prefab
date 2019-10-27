@@ -19351,12 +19351,13 @@ MonoBehaviour:
   chargeUpTime: 1
   maxChargeDrainAmount: 15
   sprite: {fileID: 9058546081720765906}
-  chargeAudio: {fileID: 8300000, guid: d12fdc005fca24c00af0973cca7e633c, type: 3}
+  chargeAudio: {fileID: 8300000, guid: 2fe82596f4a054ab6ba5be24c241a0b9, type: 3}
   deathAudio: {fileID: 8300000, guid: 28a55bf72bcfd47a39c0d71c2e64f0ce, type: 3}
   jumpAudio: {fileID: 8300000, guid: 2cba3ccc0e1da4a9aabe98cef8d4537b, type: 3}
   landAudio: {fileID: 8300000, guid: 04b228a2ef9954ebcbaba1020db0edf1, type: 3}
-  buffAudio: {fileID: 0}
-  debuffAudio: {fileID: 0}
+  buffAudio: {fileID: 8300000, guid: 251a2316a2b6b409ca36b9af1c2f613f, type: 3}
+  debuffAudio: {fileID: 8300000, guid: f1aee1ce3e7a842f9b2b6444b5132938, type: 3}
+  winSound: {fileID: 8300000, guid: bcca135ef2f9f4a12a3521da55f9b99d, type: 3}
   mainMusicSource: {fileID: 0}
   chargeUpEffect: {fileID: 1704412357531367663}
   chargeFinishEffect: {fileID: 7290991345126566924}
