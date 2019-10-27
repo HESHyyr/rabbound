@@ -7,6 +7,7 @@ public class FuelBuff : Buff
 
     protected override void ApplyBuffTo(Player player)
     {
+        player.GetFuelTank().Recharge(1);
         player.RechargeOvertime(RECHARGE_TIME);
     }
 
