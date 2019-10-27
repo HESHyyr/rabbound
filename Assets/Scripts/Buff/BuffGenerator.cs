@@ -16,9 +16,11 @@ public class BuffGenerator
         if (type == Buff.BuffType.ToxicDebuff) {
             return new ToxicDebuff();
         }
-        if (type == Buff.BuffType.DblJumpBuff)
-        {
-            return new DblJumpBuff();
+        if (type == Buff.BuffType.Blackhole) {
+            return new Blackhole();
+        }
+        if (type == Buff.BuffType.SlowDebuff) {
+            return new SlowDebuff();
         }
         return null;
     }
