@@ -8,7 +8,8 @@ abstract public class Buff
         NoBuff,
         SpeedBuff,
         FuelBuff,
-        ToxicDebuff
+        ToxicDebuff,
+        DblJumpBuff
     }
 
     protected bool triggered;

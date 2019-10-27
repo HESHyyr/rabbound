@@ -23,8 +23,8 @@ public class Player : MonoBehaviour
     bool grounded = false;
     Vector3 velocity;
     List<Collider2D> gravityFields = new List<Collider2D>();
+    bool doubleJump;
     float currentJumpForce;
-    bool firstland = true;
 
     public Planet CurrentPlanet { get => currentPlanet; set => currentPlanet = value; }
     public bool Grounded { get => grounded; set => grounded = value; }
@@ -210,6 +210,16 @@ public class Player : MonoBehaviour
         GameObject wave = GameObject.Find("Wave").gameObject;
         wave.SetActive(false);
         gameOver = true;
+    }
+
+    public void EnableDoubleJump()
+    {
+        doubleJump = true;
+    }
+
+    public bool CanDoubleJump()
+    {
+        return doubleJump;
     }
 
 }
