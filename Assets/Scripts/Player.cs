@@ -10,8 +10,6 @@ public class Player : MonoBehaviour
     [SerializeField] float maxJumpForce = 12;
     [SerializeField] float jumpOffset = 0.1f;
     [SerializeField] float chargeUpTime = 2f;
-    [SerializeField] Text GameWinText;
-    [SerializeField] Text GameOverText;
     [SerializeField] Transform sprite;
 
     [SerializeField] AudioClip chargeAudio;
@@ -53,8 +51,6 @@ public class Player : MonoBehaviour
         animator = sprite.GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         currentJumpForce = jumpForce;
-        GameOverText.enabled = false;
-        GameWinText.enabled = false;
         chargeRate = (maxJumpForce - jumpForce) / chargeUpTime;
         Debug.Log(chargeRate);
     }
@@ -159,12 +155,12 @@ public class Player : MonoBehaviour
 
     bool TraceBack()
     {
-        bool pressedSpace = Input.GetKeyDown("space");
+        bool pressedTraceBack = Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S);
         bool inField = gravityFields.Count > 0;
 
         bool hasTracedBack = false;
 
-        if (pressedSpace && !prevDidTrace && inField) {
+        if (pressedTraceBack && !prevDidTrace && inField) {
 
             body.velocity = Vector3.zero;
 
@@ -176,7 +172,7 @@ public class Player : MonoBehaviour
             hasTracedBack = true;
         }
 
-        prevDidTrace = pressedSpace;
+        prevDidTrace = pressedTraceBack;
 
         return hasTracedBack;
     }
@@ -263,23 +259,29 @@ public class Player : MonoBehaviour
     public FuelTank GetFuelTank() {
         return fuel.GetFuelTank();
     }
-    public void GameOver()
+
+    public void Die()
     {
         if (!gameOver) {
             mainMusicSource.PlayOneShot(deathAudio);
             //Instantiate(deathEffect, transform.position, Quaternion.identity);
             gameObject.SetActive(false);
         }
-
-        GameOverText.enabled = true;
-        gameOver = true;
+        GameOver();
     }
 
     private void GameWin()
     {
-        GameWinText.enabled = true;
         GameObject wave = GameObject.Find("Wave").gameObject;
         wave.SetActive(false);
+        GameOver();
+    }
+
+    private void GameOver() {
         gameOver = true;
+    }
+
+    public bool IsGameOver() {
+        return gameOver;
     }
 }
