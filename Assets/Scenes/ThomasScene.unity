@@ -256,12 +256,12 @@ PrefabInstance:
     - target: {fileID: 6125236258590079237, guid: 159fbda8a62bc994cba1916d3ddc7640,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 80
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6125236258590079237, guid: 159fbda8a62bc994cba1916d3ddc7640,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 80
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6125236258590079237, guid: 159fbda8a62bc994cba1916d3ddc7640,
         type: 3}
@@ -370,7 +370,7 @@ MonoBehaviour:
   - {fileID: 6125236258590079256, guid: 159fbda8a62bc994cba1916d3ddc7640, type: 3}
   - {fileID: 3324283401582367209, guid: a75623e787e4e4fbd92aed5c1d615793, type: 3}
   - {fileID: 3357087546305385857, guid: efee39cd16fa047a299093ba91935707, type: 3}
-  targetPosition: {x: 80, y: 80}
+  targetPosition: {x: 30, y: 30}
   targetPlanet: {fileID: 771083924}
   planetPossibility:
   - 0.5
@@ -413,7 +413,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1324591826
 RectTransform:
   m_ObjectHideFlags: 0
@@ -621,7 +621,7 @@ PrefabInstance:
     - target: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
         type: 3}
       propertyPath: maxJumpForce
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
         type: 3}
@@ -633,6 +633,11 @@ PrefabInstance:
       propertyPath: GameOverText
       value: 
       objectReference: {fileID: 1324591827}
+    - target: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
+        type: 3}
+      propertyPath: startSpeed
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f091328ddaa8d3c468a6897054089bbb, type: 3}
 --- !u!1 &1489978191
@@ -685,6 +690,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 771083925}
+  pointer: {fileID: 21300000, guid: e8a4e31a264dbfc4c8ead1024e49a2e2, type: 3}
+  aim: {fileID: 21300000, guid: f6bd73f111b37064db05beb79e1005c6, type: 3}
 --- !u!1 &1506827846
 GameObject:
   m_ObjectHideFlags: 0
