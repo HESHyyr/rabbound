@@ -1,18 +1,24 @@
 ﻿using System;
+using UnityEngine;
+
 public class SpeedBuff : Buff
 {
+    const float MAX_SPEED = 8;
     float multiplier;
 
-    public SpeedBuff(float multiplier = 3)
+    public SpeedBuff(float multiplier = 2) : base(true)
     {
         this.multiplier = multiplier;
     }
 
-    public override void ApplyBuff(Player player)
+    protected override void ApplyBuffTo(Player player)
     {
-        if (triggered) return;
-        player.Speed += multiplier;
+        player.Speed = Mathf.Min(MAX_SPEED, player.Speed + multiplier);
         player.Invoke("SetOriginalSpeed", 4f);
-        triggered = true;
+    }
+
+    protected override void PlaySoundEffect(Player player)
+    {
+        player.PlayBuffAudio();
     }
 }

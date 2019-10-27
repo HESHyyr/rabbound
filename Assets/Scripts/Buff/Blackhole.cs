@@ -1,8 +1,14 @@
 ﻿using System;
 public class Blackhole : Buff
 {
-    public override void ApplyBuff(Player player)
+    public Blackhole() : base(false) { }
+
+    protected override void ApplyBuffTo(Player player)
     {
         player.Die();
+    }
+
+    protected override void PlaySoundEffect(Player player)
+    {
     }
 }

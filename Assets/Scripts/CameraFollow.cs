@@ -9,6 +9,8 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] float inAirDamping = 1.5f;
     [SerializeField] Player player;
 
+    [SerializeField] GameObject master;
+
     public float maxOrthoSize { get; private set; } = 10;
     private float minOrthoSize = 5;
 
@@ -16,10 +18,16 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
-        Transform playerTarget = player.transform;
-        PanMoveCamera(playerTarget);
-        RotateCamera(playerTarget);
-        ZoomOutOnClick();
+        if(master.name == "Player")
+        {
+            Transform playerTarget = player.transform;
+            PanMoveCamera(playerTarget);
+            RotateCamera(playerTarget);
+            ZoomOutOnClick();
+        }
+        else
+            PanMoveCamera(master.transform);
+
     }
 
     void PanMoveCamera(Transform target) {

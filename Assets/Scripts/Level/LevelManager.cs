@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -71,6 +73,12 @@ public class LevelManager : MonoBehaviour
     {
         if (Vector3.Distance(player.transform.position, generateBoxCenter) >= distanceToRegenerate)
             GeneratePlanets();
+
+        if (!player.activeSelf)
+            GameOver();
+
+        if (player.GetComponent<Player>().Win)
+            GameWin();
     }
 
     void GeneratePlanets()
@@ -104,5 +112,25 @@ public class LevelManager : MonoBehaviour
         float planetX = Random.Range(x - (cellDistance / 2 - planetPrefab.transform.localScale.x), x + (cellDistance / 2 - planetPrefab.transform.localScale.x));
         float planetY = Random.Range(y - (cellDistance / 2 - planetPrefab.transform.localScale.y), y + (cellDistance / 2 - planetPrefab.transform.localScale.y));
         GameObject planet = Instantiate(planetPrefab, new Vector3(planetX, planetY, 0), Quaternion.identity);
+    }
+
+    public void GameOver()
+    {
+        IEnumerator GameOverRoutine;
+        GameOverRoutine = WaitAndLoadScene("GameOver");
+        StartCoroutine(GameOverRoutine);
+    }
+
+    public void GameWin()
+    {
+        IEnumerator GameWinRoutine;
+        GameWinRoutine = WaitAndLoadScene("GameWin");
+        StartCoroutine(GameWinRoutine);
+    }
+
+    private IEnumerator WaitAndLoadScene(string SceneName)
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(SceneName);
     }
 }

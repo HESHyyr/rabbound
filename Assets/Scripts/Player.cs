@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     [SerializeField] AudioClip deathAudio;
     [SerializeField] AudioClip jumpAudio;
     [SerializeField] AudioClip landAudio;
+    [SerializeField] AudioClip buffAudio;
+    [SerializeField] AudioClip debuffAudio;
     [SerializeField] AudioSource mainMusicSource;
 
     [SerializeField] ParticleSystem chargeUpEffect;
@@ -26,6 +28,7 @@ public class Player : MonoBehaviour
 
 
     float chargeRate;
+    float drainRate;
     FuelSystem fuel;
     float speed;
     bool gameOver = false;
@@ -45,9 +48,12 @@ public class Player : MonoBehaviour
     public bool Grounded { get => grounded; set => grounded = value; }
     public float Speed { get => speed; set => speed = value; }
 
+    public bool Win;
+
     // Start is called before the first frame update
     void Start()
     {
+        Win = false;
         speed = startSpeed;
         fuel = GetComponent<FuelSystem>();
         body = GetComponent<Rigidbody2D>();
@@ -55,6 +61,7 @@ public class Player : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         currentJumpForce = jumpForce;
         chargeRate = (maxJumpForce - jumpForce) / chargeUpTime;
+        drainRate = maxChargeDrainAmount / chargeUpTime;
         Debug.Log(chargeRate);
     }
 
@@ -123,6 +130,7 @@ public class Player : MonoBehaviour
             if (currentJumpForce < maxJumpForce)
             {
                 currentJumpForce = Mathf.Min(maxJumpForce, currentJumpForce + chargeRate * Time.deltaTime);
+                GetFuelTank().Drain(drainRate * Time.deltaTime);
             }
             else
             {
@@ -138,10 +146,6 @@ public class Player : MonoBehaviour
             body.velocity = (transform.up * currentJumpForce + velocity).normalized * currentJumpForce;
             grounded = false;
             animator.SetTrigger("Jumping");
-
-            // draining fuel based on charge amount
-            float drainFuelAmount = maxChargeDrainAmount * (currentJumpForce / maxJumpForce);
-            GetFuelTank().Drain(drainFuelAmount);
 
             audioSource.Stop();
             audioSource.PlayOneShot(jumpAudio);
@@ -284,10 +288,9 @@ public class Player : MonoBehaviour
 
         Transform fireFrom = currentPlanet.transform;
         for (int i = 0; i < 5; i++) {
-            Debug.Log("here");
             Instantiate(winFirework, fireFrom.position, Quaternion.identity);
         }
-
+        Win = true;
         GameOver();
     }
 
@@ -297,5 +300,13 @@ public class Player : MonoBehaviour
 
     public bool IsGameOver() {
         return gameOver;
+    }
+
+    public void PlayBuffAudio() {
+        audioSource.PlayOneShot(buffAudio);
+    }
+
+    public void PlayDebuffAudio() {
+        audioSource.PlayOneShot(debuffAudio);
     }
 }
