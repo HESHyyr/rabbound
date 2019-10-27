@@ -57,7 +57,8 @@ public class Player : MonoBehaviour
         }
 
         if (fuel.fuelTank.GetPercentage() <= 0.000000001)
-            GameOver();
+            fuel.fuelTank.RechargeFull();
+            //GameOver();
     }
 
     void FixedUpdate() {
@@ -150,7 +151,7 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision...");
+        //Debug.Log("Collision...");
         if (currentPlanet == collision.gameObject) {
             body.velocity = Vector3.zero;
             SnapToGround();
@@ -158,7 +159,7 @@ public class Player : MonoBehaviour
             if (firstland)
             {
                 currentJumpForce = jumpForce;
-                Debug.Log("Land Jumforce: " + currentJumpForce);
+                //Debug.Log("Land Jumforce: " + currentJumpForce);
             }
         }
     }

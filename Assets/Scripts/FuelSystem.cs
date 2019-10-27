@@ -30,7 +30,7 @@ public class FuelSystem : MonoBehaviour
     void Update()
     {
         float fuelLevelPercentage = fuelTank.GetPercentage();
-        Debug.Log("Current Level: " + Mathf.Round(fuelLevelPercentage * 100) + "%");
+        //Debug.Log("Current Level: " + Mathf.Round(fuelLevelPercentage * 100) + "%");
         fuelBar.value = fuelLevelPercentage;
     }
 }
