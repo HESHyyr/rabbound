@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] ParticleSystem chargeUpEffect;
     [SerializeField] ParticleSystem chargeFinishEffect;
     [SerializeField] ParticleSystem deathEffect;
+    [SerializeField] GameObject winFirework;
 
 
     float chargeRate;
@@ -284,6 +285,11 @@ public class Player : MonoBehaviour
     {
         GameObject wave = GameObject.Find("Wave").gameObject;
         wave.SetActive(false);
+
+        Transform fireFrom = currentPlanet.transform;
+        for (int i = 0; i < 5; i++) {
+            Instantiate(winFirework, fireFrom.position, Quaternion.identity);
+        }
         Win = true;
         GameOver();
     }
