@@ -50,6 +50,11 @@ public class LevelManager : MonoBehaviour
 
         targetPlanet.transform.Translate(new Vector3(targetPosition.x - targetPlanet.transform.position.x, targetPosition.y - targetPlanet.transform.position.y, 0));
         generatedCells.Add(new Vector2((int)targetPosition.x, (int)targetPosition.y));
+        generatedCells.Add(new Vector2((int) targetPosition.x - 1, (int) targetPosition.y - 1));
+        generatedCells.Add(new Vector2((int)targetPosition.x - 1, (int)targetPosition.y + 1));
+        generatedCells.Add(new Vector2((int)targetPosition.x + 1, (int)targetPosition.y - 1));
+        generatedCells.Add(new Vector2((int)targetPosition.x + 1, (int)targetPosition.y + 1));
+
     }
 
 
