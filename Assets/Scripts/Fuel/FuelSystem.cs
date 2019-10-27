@@ -9,7 +9,9 @@ public class FuelSystem : MonoBehaviour
     [SerializeField] Slider fuelBar;
 
     FuelTank fuelTank;
-    
+    bool recharging;
+    float rechargeRate;
+
     void Awake()
     {
         fuelTank = new FuelTank(fuelCapacity);
@@ -29,8 +31,21 @@ public class FuelSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (recharging)
+        {
+            fuelTank.Recharge(rechargeRate * Time.deltaTime);
+            recharging = !fuelTank.isFull();
+        }
         float fuelLevelPercentage = fuelTank.GetPercentage();
-        //Debug.Log("Current Level: " + Mathf.Round(fuelLevelPercentage * 100) + "%");
         fuelBar.value = fuelLevelPercentage;
+    }
+
+    public void Drain(float amount) {
+        fuelTank.Drain(amount);
+    }
+
+    public void RechargeAllOvertime(float time) {
+        recharging = true;
+        rechargeRate = (100 - fuelTank.GetLevel()) / time;
     }
 }

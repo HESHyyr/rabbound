@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FuelTank
 {
-    const float EMPTY_THRESHOLD = 0;
+    const float THRESHOLD = 0.001f;
     float capacity;
     float currentLevel;
     
@@ -27,8 +27,7 @@ public class FuelTank
     }
 
     public void Drain(float amount) {
-        //currentLevel = Mathf.Max(0, currentLevel - amount);
-        currentLevel -= amount;
+        currentLevel = Mathf.Max(0, currentLevel - amount);
     }
 
     public void DrainAll() {
@@ -40,7 +39,7 @@ public class FuelTank
     }
 
     public float GetPercentage() {
-        return currentLevel / capacity;
+        return GetLevel() / capacity;
     }
 
     public void SetCapacity(float newCapacity, bool scaling) {
@@ -51,6 +50,10 @@ public class FuelTank
     }
 
     public bool isEmpty() {
-        return currentLevel < EMPTY_THRESHOLD;
+        return currentLevel < THRESHOLD;
+    }
+
+    public bool isFull() {
+        return currentLevel > (capacity - THRESHOLD);
     }
 }
