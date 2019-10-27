@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
 
 
     float chargeRate;
+    float drainRate;
     FuelSystem fuel;
     float speed;
     bool gameOver = false;
@@ -59,6 +60,7 @@ public class Player : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         currentJumpForce = jumpForce;
         chargeRate = (maxJumpForce - jumpForce) / chargeUpTime;
+        drainRate = maxChargeDrainAmount / chargeUpTime;
         Debug.Log(chargeRate);
     }
 
@@ -127,6 +129,7 @@ public class Player : MonoBehaviour
             if (currentJumpForce < maxJumpForce)
             {
                 currentJumpForce = Mathf.Min(maxJumpForce, currentJumpForce + chargeRate * Time.deltaTime);
+                GetFuelTank().Drain(drainRate * Time.deltaTime);
             }
             else
             {
@@ -142,10 +145,6 @@ public class Player : MonoBehaviour
             body.velocity = (transform.up * currentJumpForce + velocity).normalized * currentJumpForce;
             grounded = false;
             animator.SetTrigger("Jumping");
-
-            // draining fuel based on charge amount
-            float drainFuelAmount = maxChargeDrainAmount * (currentJumpForce / maxJumpForce);
-            GetFuelTank().Drain(drainFuelAmount);
 
             audioSource.Stop();
             audioSource.PlayOneShot(jumpAudio);
