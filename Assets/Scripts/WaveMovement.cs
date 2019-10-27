@@ -7,8 +7,8 @@ public class WaveMovement : MonoBehaviour
     [SerializeField] private float initialDistanceFromOrigin = 0.0f;
     [SerializeField] private float speed = 0.0f;
 
-    [SerializeField] private GameObject player = null;
-    [SerializeField] private Transform targetPlanet = null;
+    [SerializeField] private Player player = null;
+    [SerializeField] private Planet targetPlanet = null;
 
     [SerializeField] private GameObject edge = null;
 
@@ -55,7 +55,7 @@ public class WaveMovement : MonoBehaviour
     private void SetInitialRotation()
     {
         Vector3 zAxis = Vector3.forward;
-        float angle = Vector3.SignedAngle(Vector3.up, targetPlanet.position, zAxis);
+        float angle = Vector3.SignedAngle(Vector3.up, targetPlanet.transform.position, zAxis);
         transform.rotation = Quaternion.AngleAxis(angle, zAxis);
     }
 
@@ -85,7 +85,7 @@ public class WaveMovement : MonoBehaviour
         bool isColliding = col.IsTouching(colPlayer);
 
         if (isColliding) {
-            player.GetComponent<Player>().GameOver();
+            player.GameOver();
         }
     }
 

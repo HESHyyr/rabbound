@@ -12,23 +12,19 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpOffset = 0.1f;
     [SerializeField] Text GameWinText;
     [SerializeField] Text GameOverText;
+    [SerializeField] Transform sprite;
 
     FuelSystem fuel;
     float speed;
-
-    private bool gameOver = false;
-
-
+    bool gameOver = false;
     Rigidbody2D body;
     Planet currentPlanet;
-    Transform sprite;
     Animator animator;
     bool grounded = false;
     Vector3 velocity;
     List<Collider2D> gravityFields = new List<Collider2D>();
-
-    private float currentJumpForce;
-    private bool firstland = true;
+    float currentJumpForce;
+    bool firstland = true;
 
     public Planet CurrentPlanet { get => currentPlanet; set => currentPlanet = value; }
     public bool Grounded { get => grounded; set => grounded = value; }
@@ -39,9 +35,7 @@ public class Player : MonoBehaviour
         speed = startSpeed;
         fuel = GetComponent<FuelSystem>();
         body = GetComponent<Rigidbody2D>();
-        sprite = transform.Find("Sprites");
-        animator = sprite.gameObject.GetComponent<Animator>();
-        SetMyPlanet();
+        animator = sprite.GetComponent<Animator>();
         currentJumpForce = jumpForce;
         GameOverText.enabled = false;
         GameWinText.enabled = false;
@@ -50,27 +44,24 @@ public class Player : MonoBehaviour
     void Update()
     {
         animator.SetBool("Grounded", grounded);
-        SetMyPlanet();
+        RotatePlayerOnPlanet();
         if (grounded)
         {
             Run();
-            firstland = false;
+            Jump();
         }
         else
         {
             Fly();
-            firstland = true;
         }
         if (!gameOver)
         {
             if (GetFuelTank().isEmpty())
             {
-                gameOver = true;
                 GameOver();
             }
             if (CurrentPlanet.name == "target")
             {
-                gameOver = true;
                 GameWin();
             }
         }
@@ -78,7 +69,7 @@ public class Player : MonoBehaviour
 
     void Run() {
         float move = Input.GetAxis("Horizontal") * speed;
-        velocity = transform.right *  move;
+        velocity = transform.right * move;
         transform.position += velocity * Time.fixedDeltaTime;
 
         //set animator
@@ -92,7 +83,9 @@ public class Player : MonoBehaviour
             sprite.localScale = newScale;
         }
         animator.SetFloat("Horizontal", Mathf.Abs(move));
+    }
 
+    void Jump() {
         if (Input.GetKey("space"))
             if (currentJumpForce <= maxJumpForce)
                 currentJumpForce += 0.2f;
@@ -114,35 +107,46 @@ public class Player : MonoBehaviour
         animator.SetFloat("Vertical", downSpeed);
     }
 
-    void SetMyPlanet() {
-        float min = float.PositiveInfinity;
+    void RotatePlayerOnPlanet() {
         Planet lastPlanet = currentPlanet;
-        foreach (Collider2D field in gravityFields) {
-            float distance = (field.transform.position - transform.position).magnitude;
-            GameObject p = field.gameObject.transform.parent.gameObject;
-            distance -= p.transform.localScale.x / 2;
-            if (distance < min) {
-                min = distance;
-                GameObject planetObject = field.gameObject.transform.parent.gameObject;
-                currentPlanet = planetObject.GetComponent<Planet>();
-            }
-        }
+        currentPlanet = FindClosestPlanet();
+
         if (lastPlanet != currentPlanet) {
             animator.SetTrigger("Fliping");
         }
-        if (currentPlanet == null) return;
+
+        AdjustPlayerOrientation();
+    }
+
+    void AdjustPlayerOrientation() {
         Vector3 fromPlanet = transform.position - currentPlanet.transform.position;
         float angle = Mathf.Atan2(fromPlanet.y, fromPlanet.x) * Mathf.Rad2Deg - 90;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
+    Planet FindClosestPlanet() {
+        float min = float.PositiveInfinity;
+        Planet planet = currentPlanet;
+        foreach (Collider2D field in gravityFields)
+        {
+            float distance = (field.transform.position - transform.position).magnitude;
+            GameObject planetObject = field.gameObject.transform.parent.gameObject;
+            distance -= planetObject.transform.localScale.x / 2;
+            if (distance < min)
+            {
+                min = distance;
+                planet = planetObject.GetComponent<Planet>();
+            }
+        }
+
+        return planet;
+    }
+
     void SnapToGround() {
-        if (currentPlanet == null) return;
         Vector3 dif = transform.position - currentPlanet.transform.position;
         dif.Normalize();
         float groundDis = (currentPlanet.transform.localScale.x + transform.localScale.y) / 2;
         transform.position = currentPlanet.transform.position + dif * groundDis;
-        currentPlanet.ApplyBuff(this);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -151,10 +155,15 @@ public class Player : MonoBehaviour
         if (currentPlanet.gameObject == collision.gameObject) {
             body.velocity = Vector3.zero;
             SnapToGround();
+            OnFirstLand();
             grounded = true;
-            if (firstland)
-                currentJumpForce = jumpForce;
         }
+    }
+
+    void OnFirstLand() {
+        if (grounded) return;
+        currentPlanet.ApplyBuff(this);
+        currentJumpForce = jumpForce;
     }
 
     void OnTriggerEnter2D(Collider2D field)
@@ -192,6 +201,7 @@ public class Player : MonoBehaviour
     {
         Time.timeScale = 0;
         GameOverText.enabled = true;
+        gameOver = true;
     }
 
     private void GameWin()
@@ -199,6 +209,7 @@ public class Player : MonoBehaviour
         GameWinText.enabled = true;
         GameObject wave = GameObject.Find("Wave").gameObject;
         wave.SetActive(false);
+        gameOver = true;
     }
 
 }

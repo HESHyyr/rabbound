@@ -1215,6 +1215,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1888912037}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &654888052 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9058546081720765906, guid: f091328ddaa8d3c468a6897054089bbb,
+    type: 3}
+  m_PrefabInstance: {fileID: 9058546082548838860}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &660555341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2243,6 +2249,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 2130296971}
+  pointer: {fileID: 0}
+  aim: {fileID: 0}
 --- !u!4 &984257502 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3357087546305385884, guid: efee39cd16fa047a299093ba91935707,
@@ -4908,5 +4916,16 @@ PrefabInstance:
       propertyPath: GameWinText
       value: 
       objectReference: {fileID: 1806625461}
-    m_RemovedComponents: []
+    - target: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
+        type: 3}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 654888052}
+    - target: {fileID: 9058546081720765905, guid: f091328ddaa8d3c468a6897054089bbb,
+        type: 3}
+      propertyPath: m_Name
+      value: Player Sprites
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 763693052, guid: f091328ddaa8d3c468a6897054089bbb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f091328ddaa8d3c468a6897054089bbb, type: 3}

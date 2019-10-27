@@ -6,7 +6,6 @@ public class Planet : MonoBehaviour
 {
     [SerializeField] Buff.BuffType buffType;
     Buff buff;
-
     GameObject wave;
 
     void Awake()
