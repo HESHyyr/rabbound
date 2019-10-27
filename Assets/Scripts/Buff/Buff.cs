@@ -9,7 +9,8 @@ abstract public class Buff
         SpeedBuff,
         FuelBuff,
         ToxicDebuff,
-        DblJumpBuff
+        SlowDebuff,
+        Blackhole
     }
 
     protected bool triggered;

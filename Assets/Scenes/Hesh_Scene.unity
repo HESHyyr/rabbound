@@ -437,7 +437,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 250}
+  m_AnchoredPosition: {x: 0, y: 150}
   m_SizeDelta: {x: 1000, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &804158298
@@ -598,11 +598,13 @@ MonoBehaviour:
   - {fileID: 6125236258590079256, guid: 159fbda8a62bc994cba1916d3ddc7640, type: 3}
   - {fileID: 3357087546305385857, guid: 7e3ca5d6113f84513aaf1c5c80ae2ffd, type: 3}
   - {fileID: 3357087546305385857, guid: efee39cd16fa047a299093ba91935707, type: 3}
+  - {fileID: 3357087546305385857, guid: c32e999ea547a4717ab6e03ac469f5f9, type: 3}
   targetPosition: {x: 80, y: 80}
   targetPlanet: {fileID: 771083924}
   planetPossibility:
-  - 0.7
-  - 0.9
+  - 0.5
+  - 0.75
+  - 0.85
   - 1
   levelDistance: []
   player: {fileID: 763693051}
@@ -658,7 +660,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 250}
+  m_AnchoredPosition: {x: 0, y: 150}
   m_SizeDelta: {x: 1000, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1324591827
@@ -907,6 +909,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 771083925}
+  pointer: {fileID: 21300000, guid: e8a4e31a264dbfc4c8ead1024e49a2e2, type: 3}
+  aim: {fileID: 21300000, guid: f39c5c42bc407de4f8280508cc14390c, type: 3}
 --- !u!1 &1506827846
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,7 +1032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}

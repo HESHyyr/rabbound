@@ -1,9 +1,9 @@
 ﻿using System;
-public class SpeedBuff : Buff
+public class SlowDebuff : Buff
 {
     float multiplier;
 
-    public SpeedBuff(float multiplier = 3)
+    public SlowDebuff(float multiplier = 2)
     {
         this.multiplier = multiplier;
     }
@@ -11,7 +11,7 @@ public class SpeedBuff : Buff
     public override void ApplyBuff(Player player)
     {
         if (triggered) return;
-        player.Speed += multiplier;
+        player.Speed -= multiplier;
         player.Invoke("SetOriginalSpeed", 4f);
         triggered = true;
     }

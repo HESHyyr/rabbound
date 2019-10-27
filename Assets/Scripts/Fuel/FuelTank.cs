@@ -25,6 +25,10 @@ public class FuelTank
         currentLevel = Mathf.Max(0, currentLevel - amount);
     }
 
+    public void DrainAll() {
+        currentLevel = 0;
+    }
+
     public float GetLevel() {
         return currentLevel;
     }

@@ -17,7 +17,7 @@ public class Planet : MonoBehaviour
 
     void Update()
     {
-        if (wave.GetComponent<WaveMovement>().IsBehindWave(transform.position, 10.0f))
+        if (wave != null && wave.GetComponent<WaveMovement>().IsBehindWave(transform.position, 10.0f))
             Destroy(gameObject);
     }
 

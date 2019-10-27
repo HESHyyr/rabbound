@@ -14,6 +14,13 @@ public class Player : MonoBehaviour
     [SerializeField] Text GameOverText;
     [SerializeField] Transform sprite;
 
+    [SerializeField] AudioClip chargeAudio;
+    [SerializeField] AudioClip deathAudio;
+    [SerializeField] AudioClip jumpAudio;
+    [SerializeField] AudioClip landAudio;
+    public float chargeUpTime = 0.7f;
+    private float chargeRate;
+
     FuelSystem fuel;
     float speed;
     bool gameOver = false;
@@ -28,9 +35,11 @@ public class Player : MonoBehaviour
     List<Collider2D> gravityFields = new List<Collider2D>();
     bool doubleJump;
     float currentJumpForce;
+    AudioSource audioSource;
 
     public Planet CurrentPlanet { get => currentPlanet; set => currentPlanet = value; }
     public bool Grounded { get => grounded; set => grounded = value; }
+    public float Speed { get => speed; set => speed = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +48,7 @@ public class Player : MonoBehaviour
         fuel = GetComponent<FuelSystem>();
         body = GetComponent<Rigidbody2D>();
         animator = sprite.GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         currentJumpForce = jumpForce;
         GameOverText.enabled = false;
         GameWinText.enabled = false;
@@ -89,9 +99,16 @@ public class Player : MonoBehaviour
     }
 
     void Jump() {
-        if (Input.GetKey("space"))
+        if (Input.GetKey("space")) {
+            if (!audioSource.isPlaying) {
+                audioSource.clip = chargeAudio;
+                audioSource.Play();
+                //audioSource.Play(chargeAudio);
+            }
             if (currentJumpForce <= maxJumpForce)
                 currentJumpForce += 0.2f;
+        }
+            
 
         if (Input.GetKeyUp("space"))
         {
@@ -101,6 +118,8 @@ public class Player : MonoBehaviour
             animator.SetTrigger("Jumping");
             // testing fuel
             GetFuelTank().Drain(15);
+            audioSource.Stop();
+            audioSource.PlayOneShot(jumpAudio);
         }
     }
 
@@ -191,6 +210,7 @@ public class Player : MonoBehaviour
 
     void OnFirstLand() {
         if (grounded) return;
+        audioSource.PlayOneShot(landAudio);
         currentPlanet.ApplyBuff(this);
         currentJumpForce = jumpForce;
     }
@@ -210,16 +230,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    public float GetSpeed() {
-        return speed;
-    }
-
-    public void SetSpeed(float speed) {
-        this.speed = speed;
-    }
-
     public void SetOriginalSpeed() {
-        SetSpeed(startSpeed);
+        speed = startSpeed;
     }
 
     public FuelTank GetFuelTank() {
@@ -228,6 +240,10 @@ public class Player : MonoBehaviour
 
     public void GameOver()
     {
+        if (!gameOver) {
+            audioSource.PlayOneShot(deathAudio);
+        }
+        
         Time.timeScale = 0;
         GameOverText.enabled = true;
         gameOver = true;
