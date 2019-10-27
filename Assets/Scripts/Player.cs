@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField] AudioClip landAudio;
     [SerializeField] AudioClip buffAudio;
     [SerializeField] AudioClip debuffAudio;
+    [SerializeField] AudioClip winSound;
     [SerializeField] AudioSource mainMusicSource;
 
     [SerializeField] ParticleSystem chargeUpEffect;
@@ -291,6 +292,8 @@ public class Player : MonoBehaviour
             Instantiate(winFirework, fireFrom.position, Quaternion.identity);
         }
         Win = true;
+        mainMusicSource.Stop();
+        mainMusicSource.PlayOneShot(winSound);
         GameOver();
     }
 

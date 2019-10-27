@@ -19349,15 +19349,20 @@ MonoBehaviour:
   maxJumpForce: 10
   jumpOffset: 0.1
   chargeUpTime: 1
+  maxChargeDrainAmount: 15
   sprite: {fileID: 9058546081720765906}
   chargeAudio: {fileID: 8300000, guid: d12fdc005fca24c00af0973cca7e633c, type: 3}
   deathAudio: {fileID: 8300000, guid: 28a55bf72bcfd47a39c0d71c2e64f0ce, type: 3}
   jumpAudio: {fileID: 8300000, guid: 2cba3ccc0e1da4a9aabe98cef8d4537b, type: 3}
   landAudio: {fileID: 8300000, guid: 04b228a2ef9954ebcbaba1020db0edf1, type: 3}
+  buffAudio: {fileID: 0}
+  debuffAudio: {fileID: 0}
   mainMusicSource: {fileID: 0}
   chargeUpEffect: {fileID: 1704412357531367663}
   chargeFinishEffect: {fileID: 7290991345126566924}
   deathEffect: {fileID: 6352292290362158182}
+  winFirework: {fileID: 7504179197779504191, guid: 8bc501245d9f1a74ebcdf6bbcbcc20fd,
+    type: 3}
   Win: 0
 --- !u!50 &9058546082636171024
 Rigidbody2D:
