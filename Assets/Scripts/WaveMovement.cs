@@ -11,6 +11,12 @@ public class WaveMovement : MonoBehaviour
     [SerializeField] private Planet targetPlanet = null;
 
     [SerializeField] private GameObject edge = null;
+    [SerializeField] private AudioSource bgMusic;
+
+    public float highPitch = 0.8f;
+    public float lowPitch = 0.15f;
+    public float soundPlayDis = 8f;
+    public float soundPlayDisMin = 1f;
 
     public float maxDisFromPlayer = 50f;
 
@@ -50,6 +56,23 @@ public class WaveMovement : MonoBehaviour
         DrawDebugLines();
 
         CheckIfCollidingWithPlayer();
+        ChangeSound();
+    }
+
+    void ChangeSound() {
+        //this is to make sure the wave don't fall behind to much
+        Vector3 dis = player.transform.position - transform.position;
+        //Debug.Log(dis.magnitude);
+        bgMusic.pitch = 1;
+        if (dis.magnitude < soundPlayDis)
+        {
+            //Debug.Log("moving");
+            float t = dis.magnitude;
+            t = (t - soundPlayDisMin) / (soundPlayDis - soundPlayDisMin);
+            float pitch = Mathf.Lerp(highPitch, lowPitch, t);
+            bgMusic.pitch = pitch;
+            Debug.Log(pitch);
+        }
     }
 
     // Methods
