@@ -21,6 +21,9 @@ public class Player : MonoBehaviour
     Planet currentPlanet;
     Animator animator;
     bool grounded = false;
+
+    bool prevDidTrace = false;
+
     Vector3 velocity;
     List<Collider2D> gravityFields = new List<Collider2D>();
     bool doubleJump;
@@ -56,7 +59,7 @@ public class Player : MonoBehaviour
         }
         if (!gameOver)
         {
-            if (GetFuelTank().isEmpty())
+            if (GetFuelTank().isEmpty() && grounded)
             {
                 GameOver();
             }
@@ -102,9 +105,35 @@ public class Player : MonoBehaviour
     }
 
     void Fly() {
-        float downSpeed = Vector3.Dot(body.velocity, -transform.up);
-        downSpeed /= currentJumpForce;
-        animator.SetFloat("Vertical", downSpeed);
+        if (!TraceBack()) {
+            float downSpeed = Vector3.Dot(body.velocity, -transform.up);
+            downSpeed /= currentJumpForce;
+            animator.SetFloat("Vertical", downSpeed);
+        }
+    }
+
+    bool TraceBack()
+    {
+        bool pressedSpace = Input.GetKeyDown("space");
+        bool inField = gravityFields.Count > 0;
+
+        bool hasTracedBack = false;
+
+        if (pressedSpace && !prevDidTrace && inField) {
+
+            body.velocity = Vector3.zero;
+
+            Vector3 toClosest = FindClosestPlanet().transform.position - transform.position;
+            toClosest.Normalize();
+
+            body.velocity = toClosest * jumpForce;
+
+            hasTracedBack = true;
+        }
+
+        prevDidTrace = pressedSpace;
+
+        return hasTracedBack;
     }
 
     void RotatePlayerOnPlanet() {
