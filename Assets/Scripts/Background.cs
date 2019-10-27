@@ -6,7 +6,6 @@ using ParallaxCoefficient = System.Single;
 
 public class Background : MonoBehaviour
 {
-    [SerializeField] private GameObject player = null;
     [SerializeField] private ParallaxCoefficient initial = 0.8f;
     private float starDensity = 10.0f;
     private CameraFollow camFollow = null;
