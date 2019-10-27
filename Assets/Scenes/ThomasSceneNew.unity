@@ -492,6 +492,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wave
       objectReference: {fileID: 0}
+    - target: {fileID: 366592216487157097, guid: ac348d5fd6e0b4c49bc22ad2030a2d83,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 366592216487157096, guid: ac348d5fd6e0b4c49bc22ad2030a2d83,
         type: 3}
       propertyPath: m_RootOrder
