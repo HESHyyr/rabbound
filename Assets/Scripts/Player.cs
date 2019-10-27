@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
         }
         if (!gameOver)
         {
-            if (GetFuelTank().isEmpty())
+            if (GetFuelTank().isEmpty() && grounded)
             {
                 GameOver();
                 
