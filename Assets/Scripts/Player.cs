@@ -244,10 +244,10 @@ public class Player : MonoBehaviour
 
     void OnFirstLand() {
         if (grounded) return;
-        CheckGameOver();
         audioSource.PlayOneShot(landAudio);
         currentPlanet.ApplyBuff(this);
         currentJumpForce = jumpForce;
+        CheckGameOver();
     }
 
     void OnTriggerEnter2D(Collider2D field)
