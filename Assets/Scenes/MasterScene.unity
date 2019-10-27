@@ -1100,6 +1100,11 @@ PrefabInstance:
       propertyPath: wave
       value: 
       objectReference: {fileID: 2089707545}
+    - target: {fileID: 9058546082636171025, guid: f091328ddaa8d3c468a6897054089bbb,
+        type: 3}
+      propertyPath: chargeAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: d12fdc005fca24c00af0973cca7e633c, type: 3}
     - target: {fileID: 9058546082636171052, guid: f091328ddaa8d3c468a6897054089bbb,
         type: 3}
       propertyPath: m_LocalPosition.x
