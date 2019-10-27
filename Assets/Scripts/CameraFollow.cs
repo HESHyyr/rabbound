@@ -9,6 +9,9 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] float inAirDamping = 1.5f;
     [SerializeField] Player player;
 
+    public float maxOrthoSize { get; private set; } = 10;
+    private float minOrthoSize = 5;
+
     Vector3 velocity = Vector3.zero;
 
     void Update()
@@ -37,9 +40,9 @@ public class CameraFollow : MonoBehaviour
     }
 
     void ZoomOutOnClick() {
-        if (Input.GetKey(KeyCode.H) && GetComponent<Camera>().orthographicSize < 10)
+        if (Input.GetKey(KeyCode.H) && GetComponent<Camera>().orthographicSize < maxOrthoSize)
             GetComponent<Camera>().orthographicSize += 1;
-        if (!Input.GetKey(KeyCode.H) && GetComponent<Camera>().orthographicSize > 5)
+        if (!Input.GetKey(KeyCode.H) && GetComponent<Camera>().orthographicSize > minOrthoSize)
             GetComponent<Camera>().orthographicSize -= 1;
     }
 }
