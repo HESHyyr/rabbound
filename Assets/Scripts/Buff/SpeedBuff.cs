@@ -12,7 +12,7 @@ public class SpeedBuff : Buff
     {
         if (triggered) return;
         player.SetSpeed(player.GetSpeed() + multiplier);
-        player.Invoke("SetOriginalSpeed", 6f);
+        player.Invoke("SetOriginalSpeed", 4f);
         triggered = true;
     }
 }
