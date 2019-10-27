@@ -44,9 +44,12 @@ public class Player : MonoBehaviour
     public bool Grounded { get => grounded; set => grounded = value; }
     public float Speed { get => speed; set => speed = value; }
 
+    public bool Win;
+
     // Start is called before the first frame update
     void Start()
     {
+        Win = false;
         speed = startSpeed;
         fuel = GetComponent<FuelSystem>();
         body = GetComponent<Rigidbody2D>();
@@ -280,6 +283,7 @@ public class Player : MonoBehaviour
     {
         GameObject wave = GameObject.Find("Wave").gameObject;
         wave.SetActive(false);
+        Win = true;
         GameOver();
     }
 
