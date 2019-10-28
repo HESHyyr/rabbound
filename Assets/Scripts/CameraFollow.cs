@@ -48,9 +48,9 @@ public class CameraFollow : MonoBehaviour
     }
 
     void ZoomOutOnClick() {
-        if (Input.GetKey(KeyCode.H) && GetComponent<Camera>().orthographicSize < maxOrthoSize)
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && GetComponent<Camera>().orthographicSize < maxOrthoSize)
             GetComponent<Camera>().orthographicSize += 1;
-        if (!Input.GetKey(KeyCode.H) && GetComponent<Camera>().orthographicSize > minOrthoSize)
+        if ((!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift)) && GetComponent<Camera>().orthographicSize > minOrthoSize)
             GetComponent<Camera>().orthographicSize -= 1;
     }
 }
