@@ -87,14 +87,14 @@ public class Player : MonoBehaviour
     void CheckGameOver() {
         if (!gameOver)
         {
+            if (CurrentPlanet.name == "target")
+            {
+                GameWin();
+            }
             if (GetFuelTank().isEmpty())
             {
                 Die();
 
-            }
-            if (CurrentPlanet.name == "target")
-            {
-                GameWin();
             }
         }
     }
