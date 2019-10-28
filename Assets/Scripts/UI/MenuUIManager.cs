@@ -26,4 +26,9 @@ public class MenuUIManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void CreditButton()
+    {
+        SceneManager.LoadScene("GameWin");
+    }
 }

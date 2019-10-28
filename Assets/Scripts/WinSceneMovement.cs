@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WinSceneMovement : MonoBehaviour
 {
@@ -17,5 +18,10 @@ public class WinSceneMovement : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void mainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
