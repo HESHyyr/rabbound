@@ -36,8 +36,7 @@ public class FuelSystem : MonoBehaviour
             fuelTank.Recharge(rechargeRate * Time.deltaTime);
             recharging = !fuelTank.isFull();
         }
-        float fuelLevelPercentage = fuelTank.GetPercentage();
-        fuelBar.value = fuelLevelPercentage;
+        fuelBar.value = fuelTank.isEmpty() ? 0 : fuelTank.GetPercentage();
     }
 
     public void Drain(float amount) {
